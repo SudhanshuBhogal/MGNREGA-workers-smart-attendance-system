@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const AuthorisedPersonnelSchema = new mongoose.Schema({
   firstName: {
@@ -39,9 +40,6 @@ const AuthorisedPersonnelSchema = new mongoose.Schema({
   },
 });
 
-const AuthorisedPersonnel = mongoose.model(
-  "AuthorisedPersonnel",
-  AuthorisedPersonnelSchema
-);
+AuthorisedPersonnelSchema.plugin(passportLocalMongoose);
 
-module.exports = AuthorisedPersonnel;
+module.exports = mongoose.model("AuthorisedPersonnel",AuthorisedPersonnelSchema);

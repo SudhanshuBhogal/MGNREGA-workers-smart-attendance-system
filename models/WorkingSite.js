@@ -4,6 +4,7 @@ const WorkingSiteSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true,
     },
     addressLine: {
         type: String,
@@ -41,9 +42,8 @@ const WorkingSiteSchema = new mongoose.Schema({
     },
 });
 
-const WorkingSite = mongoose.model(
+
+module.exports = mongoose.model(
     "WorkingSite",
     WorkingSiteSchema
 );
-
-module.exports = WorkingSite;

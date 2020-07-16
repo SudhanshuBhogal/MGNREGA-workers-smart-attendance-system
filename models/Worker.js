@@ -28,6 +28,7 @@ const WorkerSchema = new mongoose.Schema({
     jobCardId: {
         type: String,
         required: true,
+        unique: true,
     },
     faceMappings: {
         type: String
@@ -38,9 +39,8 @@ const WorkerSchema = new mongoose.Schema({
     },
 });
 
-const Worker = mongoose.model(
+
+module.exports = mongoose.model(
     "Worker",
     WorkerSchema
 );
-
-module.exports = Worker;

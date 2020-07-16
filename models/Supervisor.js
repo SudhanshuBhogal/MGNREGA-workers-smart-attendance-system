@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const SupervisorSchema = new mongoose.Schema({
     firstName: {
@@ -50,9 +51,9 @@ const SupervisorSchema = new mongoose.Schema({
     },
 });
 
-const Supervisor = mongoose.model(
+SupervisorSchema.plugin(passportLocalMongoose);
+module.exports = mongoose.model(
     "Supervisor",
     SupervisorSchema
 );
 
-module.exports = Supervisor;

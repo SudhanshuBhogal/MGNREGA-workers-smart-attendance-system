@@ -37,7 +37,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/">Home</a>
 					</li>
-					<% if(!hideNavbarItems){%>
+					<% if(typeof showNavbarItems !== "undefined" && showNavbarItems){%>
 						<li class="nav-item">
 							<a class="nav-link js-scroll-trigger" href="#login-signup">Login/Signup</a>
 						</li>

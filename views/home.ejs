@@ -1,4 +1,4 @@
-<%- include("partials/header") %>
+<%- include("partials/header",{showNavbarItems:showNavbarItems}) %>
 
 <header class="bg-primary text-white">
 	<div class="container text-center">
@@ -23,6 +23,8 @@
 							<a class="dropdown-item" href="/login/authorised-personnel">Login</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="/register/authorised-personnel">Register</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="/dashboard/authorised-personnel">Dashboard</a>
 						</div>
 					</div>
 				</div>
@@ -37,6 +39,8 @@
 							<a class="dropdown-item" href="/login/supervisor">Login</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="/register/supervisor">Register</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="/dashboard/supervisor">Dashboard</a>
 						</div>
 					</div>
 				</div>

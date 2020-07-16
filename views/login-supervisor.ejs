@@ -1,4 +1,4 @@
-<%- include("partials/header",{hideNavbarItems: hideNavbarItems}) %>
+<%- include("partials/header") %>
 <div class="bg-gradient-primary" style="padding-top: 56px;">
 
     <div class="container">
@@ -18,7 +18,8 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user ensure-height">
+                                    <form action=""></form>
+                                    <form action="/login/supervisor" method="post" class="user ensure-height">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
@@ -35,9 +36,9 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                        <button class="btn btn-primary btn-user btn-block">
                                             Login
-                                        </a>
+                                        </button>
                                         <hr>
                                     </form>
                                     <hr>
