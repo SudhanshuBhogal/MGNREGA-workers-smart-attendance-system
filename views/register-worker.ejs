@@ -13,7 +13,7 @@
                                 <h1 class="h4 text-gray-900 mb-4">Registration - Worker</h1>
                                 <hr>
                             </div>
-                            <form class="user" action="/register/worker" method="post">
+                            <form class="user" action="/worker" method="post">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="first-name"
@@ -29,26 +29,47 @@
                                     name = "worker[addressLine]" placeholder="Address Line 1">
                                 </div>
                                 <div class="form-group row">
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control form-control-user" id="w-State"
+                                            name="worker[state]" placeholder="State">
+                                    </div>
                                     <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="city"
-                                        name = "worker[city]" placeholder="City">
+                                        <input type="text" class="form-control form-control-user" id="w-district"
+                                            name="worker[district]" placeholder="District">
                                     </div>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control form-control-user" id="State"
-                                        name = "worker[state]" placeholder="State">
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control form-control-user" id="pincode"
-                                        name = "worker[pincode]" placeholder="pincode">
+                                        <input type="text" class="form-control form-control-user" id="w-pincode"
+                                            name="worker[pincode]" placeholder="pincode">
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="w-block"
+                                            name="worker[block]" placeholder="Block">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="w-panchayat"
+                                            name="worker[panchayat]" placeholder="Panchayat">
+                                    </div>
+                                </div >
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="w-job-card-id"
+                                        name = "worker[jobCardId]" placeholder="Job Card Id">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="w-family-id"
+                                        name = "worker[familyId]" placeholder="Family Id">
+                                    </div>
+                                </div >
                                 <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="job-card-id"
-                                    name = "worker[jobCardId]" placeholder="Job Card Id">
+                                    <input type="text" class="form-control form-control-user" id="w-aadhar-number"
+                                    name = "worker[aadharNumber]" placeholder="Aadhar Number">
                                 </div>
                                 <div class="form-group">
-                                    <input type="file" class="form-control form-control-user" id="photograph" name = "photograph" >
+                                    <input type="file" class="form-control form-control-user" id="w-photograph" name = "photograph" >
                                 </div>
+                                <hr>
                                 <button href="#" class="btn btn-primary btn-user btn-block">
                                     Register Worker
                                 </button>

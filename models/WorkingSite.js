@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const WorkingSiteSchema = new mongoose.Schema({
+    id: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     name: {
         type: String,
         required: true,
@@ -10,11 +15,19 @@ const WorkingSiteSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    city: {
+    state: {
         type: String,
         required: true,
     },
-    state: {
+    district: {
+        type: String,
+        required: true,
+    },
+    block: {
+        type: String,
+        required: true,
+    },
+    panchayat: {
         type: String,
         required: true,
     },
@@ -26,6 +39,16 @@ const WorkingSiteSchema = new mongoose.Schema({
         latitude: { type: String },
         longitude: { type: String }
     },
+    status: {
+        type: String,
+        default: "Not commenced",
+    },
+    estimatedCost: {
+        type: Number,
+    },
+    estimatedCompletionTime: {
+        type: Number,
+    },
     supervisor: {
         type: mongoose.Schema.Types.ObjectId,
         ref : "Supervisor"
@@ -36,10 +59,6 @@ const WorkingSiteSchema = new mongoose.Schema({
             ref : "Worker"
         }
     ],
-    status: {
-        type: String,
-    },
-    
     date: {
         type: Date,
         default: Date.now,

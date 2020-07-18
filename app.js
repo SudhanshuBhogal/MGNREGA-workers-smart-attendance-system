@@ -57,9 +57,6 @@ app.get("/register/:designation", (req, res) => {
         res.render("register-authorised-personnel");
     } else if (designation === "supervisor") {
         res.render("register-supervisor");
-    } else if (designation === "worker") {
-        //TODO : pass through middleware to ensure supervisor/authorised personnel is logged in
-        res.render("register-worker");
     }
     else {
         //TODO : redirect to 404 page.
@@ -138,10 +135,22 @@ app.post("/register/supervisor", (req, res) => {
     }
 });
 
+app.get("/worker/new", (req, res) => {
+    res.render("register-worker");
+})
 //register worker
-app.post("/register/worker", (req, res) => {
+app.post("/worker", (req, res) => {
     console.log(req.body.worker);
-    res.redirect('..');
+    Worker.create(req.body.worker, (err, newWorker) => {
+        if (err) {
+            console.log(err);
+            res.redirect("..");
+        } else {
+            console.log(newWorker);
+            res.send("Worker registered successfully!");
+        }
+    })
+    
 })
 
 //login routes
@@ -192,13 +201,22 @@ app.get("/dashboard/:designation", (req, res) => {
 });
 
 //Working site routes
-app.get("/working-site", (req, res) => {
+app.get("/working-site/new", (req, res) => {
     res.render("create-working-site");
 })
+
 app.post("/working-site", (req, res) => {
     console.log(req.body.workingSite);
-    res.redirect('..');
-})
+    WorkingSite.create(req.body.workingSite, (err, newWorkingSite)=>{
+        if (err) {
+            console.log(err);
+            res.redirect("..");
+        } else {
+            console.log(newWorkingSite);
+            res.send("Worker registered successfully!");
+        }
+    });
+});
 
 
 app.listen(process.env.PORT, process.env.IP, () => {

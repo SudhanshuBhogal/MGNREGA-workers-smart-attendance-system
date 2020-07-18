@@ -13,11 +13,19 @@ const WorkerSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    city: {
+    state: {
         type: String,
         required: true,
     },
-    state: {
+    district: {
+        type: String,
+        required: true,
+    },
+    block: {
+        type: String,
+        required: true,
+    },
+    panchayat: {
         type: String,
         required: true,
     },
@@ -25,10 +33,18 @@ const WorkerSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    familyId: {
+        type: Number,
+        required: true,
+    },
     jobCardId: {
         type: String,
         required: true,
         unique: true,
+    },
+    aadharNumber: {
+        type: Number,
+        required: true,
     },
     faceMappings: {
         type: String

@@ -16,6 +16,10 @@
                             </div>
                             <form class="user" action="/working-site" method="post">
                                 <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="ws-id"
+                                        name="workingSite[id]" placeholder="Id">
+                                </div>
+                                <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="ws-name"
                                         name="workingSite[name]" placeholder="Name">
                                 </div>
@@ -24,19 +28,29 @@
                                         name="workingSite[addressLine]" placeholder="Address Line 1">
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="ws-city"
-                                            name="workingSite[city]" placeholder="City">
-                                    </div>
                                     <div class="col-sm-4">
                                         <input type="text" class="form-control form-control-user" id="ws-State"
                                             name="workingSite[state]" placeholder="State">
+                                    </div>
+                                    <div class="col-sm-4 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="ws-district"
+                                            name="workingSite[district]" placeholder="District">
                                     </div>
                                     <div class="col-sm-4">
                                         <input type="text" class="form-control form-control-user" id="ws-pincode"
                                             name="workingSite[pincode]" placeholder="pincode">
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="ws-block"
+                                            name="workingSite[block]" placeholder="Block">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="ws-panchayat"
+                                            name="workingSite[panchayat]" placeholder="Panchayat">
+                                    </div>
+                                </div >
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="ws-latitude"
@@ -47,6 +61,17 @@
                                             name="workingSite[coordinates][longitude]" placeholder="Longitude">
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="ws-estimated-cost"
+                                            name="workingSite[estimatedCost]" placeholder="Estimated Cost">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="ws-estimated-completion-time"
+                                            name="workingSite[estimatedCompletionTime]" placeholder="Estimated Completion Time">
+                                    </div>
+                                </div >
+                                <hr>
                                 <button href="#" class="btn btn-primary btn-user btn-block">
                                     Create Working Site
                                 </button>
