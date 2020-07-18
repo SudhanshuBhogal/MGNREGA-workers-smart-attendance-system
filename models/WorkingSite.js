@@ -36,6 +36,10 @@ const WorkingSiteSchema = new mongoose.Schema({
             ref : "Worker"
         }
     ],
+    status: {
+        type: String,
+    },
+    
     date: {
         type: Date,
         default: Date.now,

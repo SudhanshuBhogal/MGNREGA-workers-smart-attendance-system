@@ -1,21 +1,26 @@
 <%- include("partials/header",{showNavbarItems:showNavbarItems}) %>
 
 <header class="bg-primary text-white">
-	<div class="container text-center">
-		<h1>Welcome to MGNREGA Attendance tracking System</h1>
-		<p class="lead">An automated attendance system for better workforce management and instilling transparency in
-			the system using Deep Learning techniques to recognise and record the worker's presence at the spot.</p>
+	<div class="container">
+		<div class="jumbotron bg-dark text-center shadow-lg">
+			<h1 class='display-4'>Welcome to MGNREGA Attendance System</h1>
+			<hr>
+			<p class="lead">An automated attendance system for better workforce management and instilling transparency in
+				the system using Deep Learning techniques to recognise and record the worker's presence at the Working site.
+			</p>
+		</div>
 	</div>
-	<div id="login-signup" class="mt-5">
+	<hr>
+	<div id="login-signup">
 		<div class="container">
-			<div class="row justify-content-center mb-3 text-warning">
+			<div class="row justify-content-center mb-2 text-warning">
 				<h2>Continue as,</h2>
 			</div>
 			<div class="row justify-content-end text-center">
 				<div class="col">
 					<!-- <a class="btn btn-success" href="#" role="button">Authorised personnel</a> -->
 					<div class="btn-group dropright">
-						<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+						<button type="button" class="btn btn-dark dropdown-toggle shadow-lg" data-toggle="dropdown"
 							aria-haspopup="true" aria-expanded="false">
 							Authorised personnel
 						</button>
@@ -31,7 +36,7 @@
 				<div class="col">
 					<!-- <a class="btn btn-success" href="#" role="button">Supervisor</a> -->
 					<div class="btn-group dropright">
-						<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+						<button type="button" class="btn btn-dark dropdown-toggle shadow-lg" data-toggle="dropdown"
 							aria-haspopup="true" aria-expanded="false">
 							Supervisor
 						</button>
@@ -49,17 +54,18 @@
 	</div>
 </header>
 
-<section id="explore" class="bg-light">
+<section id="explore">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-8 mx-auto">
-				<h2>Explore</h2>
+			<div class="col">
+				<h2 class="pb-4 text-center">Explore</h2>
 				<div>
 					<div class="row">
-						<div class="col-4">
+						<div class="col-sm-3">
 							<div class="list-group" id="list-tab" role="tablist">
 								<a class="list-group-item list-group-item-action active" id="list-working-sites-list"
-									data-toggle="list" href="#list-working-sites" role="tab" aria-controls="working-sites">Working-Sites</a>
+									data-toggle="list" href="#list-working-sites" role="tab"
+									aria-controls="working-sites">Working-Sites</a>
 								<a class="list-group-item list-group-item-action" id="list-workers-list"
 									data-toggle="list" href="#list-workers" role="tab"
 									aria-controls="workers">Workers</a>
@@ -68,14 +74,19 @@
 									aria-controls="attendance-prediction">Attendance Prediction</a>
 							</div>
 						</div>
-						<div class="col-8">
-							<div class="tab-content" id="nav-tabContent">
+						<div class="col-sm-8">
+							<div class="tab-content pt-4" id="nav-tabContent">
 								<div class="tab-pane fade show active" id="list-working-sites" role="tabpanel"
-									aria-labelledby="list-working-sites-list">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+									aria-labelledby="list-working-sites-list">Analytics and details of all current
+									working sites here. Analytics and details of all current
+									working sites here. Analytics and details of all current
+									working sites here. Analytics and details of all current
+									working sites here.</div>
 								<div class="tab-pane fade" id="list-workers" role="tabpanel"
-									aria-labelledby="list-workers-list">Nemo assumenda laborum vel, labore ut velit dignissimos.</div>
+									aria-labelledby="list-workers-list">Analytics and details of all Workers here.</div>
 								<div class="tab-pane fade" id="list-attendance-prediction" role="tabpanel"
-									aria-labelledby="list-attendance-prediction-list">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+									aria-labelledby="list-attendance-prediction-list">Attendance prediction stuff here
+								</div>
 							</div>
 						</div>
 					</div>
@@ -85,11 +96,11 @@
 	</div>
 </section>
 
-<section id="about">
+<section id="about" class="bg-light">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-8 mx-auto">
-				<h2>About</h2>
+			<div class="col">
+				<h2 class="pb-4 text-center">About</h2>
 				<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore,
 					expedita quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda
 					laborum vel, labore ut velit dignissimos.</p>
@@ -108,8 +119,12 @@
 <section id="contact">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-8 mx-auto">
-				<h2>Contact us</h2>
+			<div class="col mb-5">
+				<h2 class="pb-4 text-center">Contact us</h2>
+				<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero odio fugiat voluptatem dolor, provident officiis, id iusto! Obcaecati incidunt, qui nihil beatae magnam et repudiandae ipsa
+					exercitationem, in, quo totam.</p>
+				<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero odio fugiat voluptatem dolor, provident officiis, id iusto! Obcaecati incidunt, qui nihil beatae magnam et repudiandae ipsa
+					exercitationem, in, quo totam.</p>
 				<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero odio fugiat voluptatem
 					dolor, provident officiis, id iusto! Obcaecati incidunt, qui nihil beatae magnam et repudiandae ipsa
 					exercitationem, in, quo totam.</p>
