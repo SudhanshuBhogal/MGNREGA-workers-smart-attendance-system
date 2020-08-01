@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/img1"
+    tools:context=".Admin">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIGN UP FOR PRO"
+        android:textSize="40dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:id="@+id/name"
+        android:hint="Name"
+        android:background="@drawable/edit_round"
+        android:drawableLeft="@drawable/ic_name"
+        android:drawablePadding="10dp"
+        android:paddingLeft="10dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:inputType="text"/>
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:id="@+id/mob"
+        android:hint="Mobile Number"
+        android:background="@drawable/edit_round"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_phone_list_2"
+        android:drawablePadding="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:inputType="number"/>
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:id="@+id/username"
+        android:hint="Username"
+        android:background="@drawable/edit_round"
+        android:drawableLeft="@drawable/ic_user"
+        android:drawablePadding="10dp"
+        android:paddingLeft="10dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:inputType="textEmailAddress"/>
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:id="@+id/password"
+        android:hint="Password"
+        android:background="@drawable/edit_round"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_password"
+        android:drawablePadding="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:inputType="textPassword"/>
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:id="@+id/cpassword"
+        android:hint="Confirm Password"
+        android:background="@drawable/edit_round"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_password"
+        android:drawablePadding="10dp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:inputType="textPassword"/>
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Type of User:"-->
+    <!--android:textStyle="bold"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:textSize="30dp"/>-->
+
+    <!--<RadioGroup-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/rg"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:layout_marginLeft="20dp">-->
+
+    <!--<RadioButton-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Normal"-->
+    <!--android:textSize="30dp"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:id="@+id/rb1"-->
+    <!--android:textStyle="bold"/>-->
+    <!--<RadioButton-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Pro"-->
+    <!--android:textSize="30dp"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:id="@+id/rb2"-->
+    <!--android:textStyle="bold"/>-->
+    <!--</RadioGroup>-->
+    <!--</LinearLayout>-->
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Sign up"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_round"
+        android:id="@+id/signup"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:text="GO TO LOGIN PAGE"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:id="@+id/signtext"/>
+
+</LinearLayout>

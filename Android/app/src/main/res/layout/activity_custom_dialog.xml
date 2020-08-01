@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.stech20.Custom_dialog">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="100dp"
+        android:background="@layout/image_border"
+        android:layout_marginTop="40dp"></ImageView>
+
+    <Button
+        android:id="@+id/yes"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/imageView2"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="30dp"
+        android:background="@android:color/background_light"
+        android:text="Yes" />
+
+    <Button
+        android:id="@+id/no"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/imageView2"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="30dp"
+        android:background="@android:color/background_light"
+        android:text="No" />
+
+
+</RelativeLayout>
