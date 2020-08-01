@@ -60,17 +60,27 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
 import com.google.android.gms.vision.face.FaceDetector;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class Page1 extends AppCompatActivity {
 
     Button pic, pic1, view;
+    int flag = 0;
     private static final int CAMERA_REQUEST = 1888;
     ImageView imageView,i2;
-
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
     TextView display;
     double lat = 0, lon = 0, str_lat = 0, str_log = 0;
     String add = "", name = "", cont = "",name_entered="";
@@ -273,16 +283,25 @@ public class Page1 extends AppCompatActivity {
                             dialog.dismiss();
                             startActivity(i);
                             finish();
-
-                            //Toast.makeText(this, "Attendance Marked" , Toast.LENGTH_SHORT).show();
+                            flag = 1;
                         }
 
                     });
+            if(flag == 1){
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("https://jsonplaceholder.typicode.com/") // Isko change karna
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+                markAttendance(person);
+                Toast.makeText(this,"Attendance Marked",Toast.LENGTH_SHORT).show();
+                flag = 0;
+            }
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             Intent i=new Intent(getApplicationContext(), Page1.class);
-
+                            flag = -1;
                             dialog.dismiss();
                             startActivity(i);
                             finish();
@@ -290,6 +309,10 @@ public class Page1 extends AppCompatActivity {
                         }
                     });
             alertDialog.show();
+            if(flag == 1){
+                Toast.makeText(this,"Please try again.......attendance not marked",Toast.LENGTH_SHORT).show();
+                flag = 0;
+            }
 
 
 
@@ -327,6 +350,29 @@ public class Page1 extends AppCompatActivity {
 
 
         }
+    }
+
+    private void markAttendance(String name) {
+        AttendanceMark attendanceMark = new AttendanceMark(name);
+        Map<String, String> fields = new HashMap<>();
+        fields.put("name", name);
+        Call<AttendanceMark> call = jsonPlaceHolderApi.markAttendance(fields);
+        call.enqueue(new Callback<AttendanceMark>() {
+            @Override
+            public void onResponse(Call<AttendanceMark> call, Response<AttendanceMark> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("API error",response.toString());
+                    return;
+                }
+                AttendanceMark postResponse = response.body(); // Change karna pad sakta hai
+                //content += "Title: " + postResponse.getTitle() + "\n";
+                Log.d("API successful",response.toString());
+            }
+            @Override
+            public void onFailure(Call<AttendanceMark> call, Throwable t) {
+                Log.d("API failure","API has failed");
+            }
+        });
     }
 
     @SuppressLint("MissingPermission")
