@@ -67,7 +67,7 @@ import com.google.android.gms.vision.face.FaceDetector;
 
 public class Page1 extends AppCompatActivity {
 
-    Button pic, send, view;
+    Button pic, pic1, view;
     private static final int CAMERA_REQUEST = 1888;
     ImageView imageView,i2;
 
@@ -130,6 +130,7 @@ public class Page1 extends AppCompatActivity {
         imgData.order(ByteOrder.nativeOrder());
 
         pic = findViewById(R.id.pic);
+        pic1 = findViewById(R.id.pic1);
         display = findViewById(R.id.display);
         sr = FirebaseStorage.getInstance().getReference();
         //lat=findViewById(R.id.lat);
@@ -192,9 +193,19 @@ public class Page1 extends AppCompatActivity {
             }
         });
 
+        pic1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getApplicationContext(), Menu_Activity.class);
+                startActivity(i);
+                finish();
+
+            }
+        });
 
 
-    }
+
+            }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Toast.makeText(this,"scfsdgfg",Toast.LENGTH_SHORT).show();
