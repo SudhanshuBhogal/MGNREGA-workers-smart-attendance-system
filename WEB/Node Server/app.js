@@ -1,3 +1,5 @@
+const { response } = require("express");
+
 require("dotenv").config();
 var express = require("express"),
     app = express(),
@@ -10,6 +12,7 @@ var express = require("express"),
     fs = require('fs'),
     path = require('path'),
     multer = require('multer'),
+    request = require('request'),
     Worker = require("./models/Worker"),
     WorkingSite = require("./models/WorkingSite"),
     AuthorisedPersonnel = require("./models/AuthorisedPersonnel"),
@@ -22,20 +25,21 @@ require("./config/passport")(passport);
 mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log('Connected to DB!')).catch(error => console.log(error.message));
 
 //multer middleware
-  var storage = multer.diskStorage({ 
-    destination: (req, file, cb) => { 
-        cb(null, 'uploads') 
-    }, 
-    filename: (req, file, cb) => { 
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    } 
-}); 
-  
-var upload = multer({ storage: storage }); 
+    }
+});
+
+var upload = multer({ storage: storage });
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //passport configuration  
 // Express session
@@ -155,8 +159,8 @@ app.get("/worker/new", (req, res) => {
     res.render("register-worker");
 })
 
-//register worker
-app.post("/worker", upload.single('faceImage'), (req, res,next) => {
+//register worker, get image vectos and store the worker in the database
+app.post("/worker", upload.single('faceImage'), (req, res, next) => {
     console.log(req.body.worker);
     var imageObject = {
         name: req.body.worker.jobCardId,
@@ -165,6 +169,17 @@ app.post("/worker", upload.single('faceImage'), (req, res,next) => {
             contentType: 'image/png'
         }
     }
+    //for getting embedding from image
+    // request.post({
+    //     url: "http://localhost:5000/getfacevector",
+    //     form: {imageBase64 : imageObject.image.data.toString('base64')}
+    //     }, (err, res, body) => {
+    //     if (!err && res.statusCode == 200) {
+    //         var faceMappings = JSON.parse(body);
+    //         console.log(faceMappings);
+    //     }
+    // });
+
     Image.create(imageObject, (err, savedImage) => {
         if (err) {
             console.log(err);
@@ -191,8 +206,13 @@ app.post("/worker", upload.single('faceImage'), (req, res,next) => {
         }
     });
 
-    
+
 });
+
+//worker show route
+app.get("/workers", (req, res) => {
+    res.render("workers-show");
+})
 
 //login routes
 app.get("/login/:designation", (req, res) => {
@@ -248,7 +268,7 @@ app.get("/working-site/new", (req, res) => {
 
 app.post("/working-site", (req, res) => {
     console.log(req.body.workingSite);
-    WorkingSite.create(req.body.workingSite, (err, newWorkingSite)=>{
+    WorkingSite.create(req.body.workingSite, (err, newWorkingSite) => {
         if (err) {
             console.log(err);
             res.redirect("..");
@@ -258,6 +278,32 @@ app.post("/working-site", (req, res) => {
         }
     });
 });
+
+//api for android
+app.post("/markattendance", (req, res) => {
+    console.log(req.body.name);
+    Worker.findOne({ firstName: req.body.name }, function (err, worker) {
+        if (err) {
+            console.log(err);
+        } else {
+            worker.attendanceRecord.push(Date.now());
+            worker.save((err, data) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(data);
+                    res.send("Attendance marked successfully!");
+                }
+            });
+        }
+    });
+});
+
+// app.get("/markattendance", (req, res) => {
+//     res.send("Reached sudhanshu successsfully!");
+// });
+
+
 
 
 app.listen(process.env.PORT, process.env.IP, () => {

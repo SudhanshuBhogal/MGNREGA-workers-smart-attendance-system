@@ -7,7 +7,7 @@ import base64
 import re
 from io import BytesIO
 from io import StringIO
-# import edScript2
+import facenet_flask
 from flask_cors import CORS
 
 # dotenv.load_dotenv()
@@ -18,19 +18,19 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# @app.route('/emotify',methods = ['POST'])
-# def get_image():
-#     print("Reached here in flask2")
-#     image_b64 = request.values['imageBase64']
-#     image_data = re.sub('^data:image/.+;base64,', '', image_b64)
-#     image_PIL = Image.open(BytesIO(base64.b64decode(image_data)))
+@app.route('/getfacevector',methods = ['POST'])
+def get_facevector():
+    print("Reached here in flask1")
+    image_b64 = request.values['imageBase64']
+    image_data = re.sub('^data:image/.+;base64,', '', image_b64)
+    image_PIL = Image.open(BytesIO(base64.b64decode(image_data)))
 
-#     #just for checking if the image is received.
-#     image_np = np.array(image_PIL)
-#     print(f'Image received in the dest route: {image_np.shape}')
+    #just for checking if the image is received.
+    image_np = np.array(image_PIL)
+    print(f'Image received in the dest route: {image_np.shape}')
 
-#     emotion = edScript2.detect_emotion(image_PIL)
-#     return jsonify({'status':'status ok please','emotion':emotion})
+    embeddings = facenet_flask.get_embedding(image_PIL)
+    return jsonify({'status':'status ok please','faceMappings':embeddings})
 
 
 

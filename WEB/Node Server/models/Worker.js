@@ -51,8 +51,13 @@ const WorkerSchema = new mongoose.Schema({
         ref : "Image",
     },
     faceMappings: {
-        type: String
+        type: String,
     },
+    attendanceRecord: [
+        {
+            type: String,
+        }
+    ],
     date: {
         type: Date,
         default: Date.now,
