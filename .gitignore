@@ -1,1 +1,6 @@
-Web/.git/
+Web/Node/.git/
+Web/Node/.env
+Web/Node/node_modules/
+Web/Node/.vscode/
+Web/Flask/.env
+Web/Flask/.git/
