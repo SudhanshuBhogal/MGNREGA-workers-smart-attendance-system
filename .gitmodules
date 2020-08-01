@@ -1,0 +1,6 @@
+[submodule "Web/flaskserver"]
+	path = Web/flaskserver
+	url = D:\\Workspace\\SIH 2020 DEEPMINDS\\NC_SVCE_MK203_DeepMinds\\Web\\Flask
+[submodule "Web/nodeserver"]
+	path = Web/nodeserver
+	url = D:\\Workspace\\SIH 2020 DEEPMINDS\\NC_SVCE_MK203_DeepMinds\\Web\\Node
