@@ -46,6 +46,10 @@ const WorkerSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    faceImage: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref : "Image",
+    },
     faceMappings: {
         type: String
     },

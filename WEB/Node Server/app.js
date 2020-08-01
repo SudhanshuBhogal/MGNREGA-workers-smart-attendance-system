@@ -7,15 +7,31 @@ var express = require("express"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
     session = require("express-session"),
+    fs = require('fs'),
+    path = require('path'),
+    multer = require('multer'),
     Worker = require("./models/Worker"),
     WorkingSite = require("./models/WorkingSite"),
     AuthorisedPersonnel = require("./models/AuthorisedPersonnel"),
-    Supervisor = require("./models/Supervisor");
+    Supervisor = require("./models/Supervisor"),
+    Image = require("./models/Image");
 
 // Passport Config
 require("./config/passport")(passport);
 
 mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log('Connected to DB!')).catch(error => console.log(error.message));
+
+//multer middleware
+  var storage = multer.diskStorage({ 
+    destination: (req, file, cb) => { 
+        cb(null, 'uploads') 
+    }, 
+    filename: (req, file, cb) => { 
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    } 
+}); 
+  
+var upload = multer({ storage: storage }); 
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -138,20 +154,45 @@ app.post("/register/supervisor", (req, res) => {
 app.get("/worker/new", (req, res) => {
     res.render("register-worker");
 })
+
 //register worker
-app.post("/worker", (req, res) => {
+app.post("/worker", upload.single('faceImage'), (req, res,next) => {
     console.log(req.body.worker);
-    Worker.create(req.body.worker, (err, newWorker) => {
+    var imageObject = {
+        name: req.body.worker.jobCardId,
+        image: {
+            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+            contentType: 'image/png'
+        }
+    }
+    Image.create(imageObject, (err, savedImage) => {
         if (err) {
             console.log(err);
             res.redirect("..");
         } else {
-            console.log(newWorker);
-            res.send("Worker registered successfully!");
+            Worker.create(req.body.worker, (err, newWorker) => {
+                if (err) {
+                    console.log(err);
+                    res.redirect("..");
+                } else {
+                    newWorker.faceImage = savedImage;
+                    newWorker.save((err, newWorkerData) => {
+                        if (err) {
+                            console.log(err);
+                            res.redirect("..");
+                        } else {
+                            console.log(newWorkerData);
+                        }
+                    });
+                    console.log(newWorker);
+                    res.send("Worker registered successfully!");
+                }
+            });
         }
-    })
+    });
+
     
-})
+});
 
 //login routes
 app.get("/login/:designation", (req, res) => {
