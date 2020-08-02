@@ -151,7 +151,7 @@ public class Page1 extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
     //Mobile number has to be changed
-    long mobNo=Long.parseLong("1111111111");
+    long mobNo;
     String person="";
 
     @Override
@@ -449,9 +449,11 @@ public class Page1 extends AppCompatActivity {
 
     private void markAttendance(String name,String latitude,String longitude) {
         Log.d("Location verification","Latitude: " + latitude + " Longitude: " + longitude);
-        AttendanceMark attendanceMark = new AttendanceMark(name);
+        //AttendanceMark attendanceMark = new AttendanceMark(name);
         Map<String, String> fields = new HashMap<>();
         fields.put("name", name);
+        fields.put("latitude", latitude);
+        fields.put("longitude", longitude);
         Call<AttendanceMark> call = jsonPlaceHolderApi.markAttendance(fields);
         call.enqueue(new Callback<AttendanceMark>() {
             @Override
@@ -461,7 +463,8 @@ public class Page1 extends AppCompatActivity {
                     return;
                 }
                 AttendanceMark postResponse = response.body(); // Change karna pad sakta hai
-                //content += "Title: " + postResponse.getTitle() + "\n";
+                Log.d("API response",postResponse.getcontactNumber());
+                mobNo = Long.parseLong(postResponse.getcontactNumber());
                 Log.d("API successful",response.toString());
             }
             @Override
