@@ -152,6 +152,7 @@ public class Page1 extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
     //Mobile number has to be changed
     long mobNo;
+    long mobile_number;
     String person="";
 
     @Override
@@ -354,7 +355,7 @@ public class Page1 extends AppCompatActivity {
 
                 }
                 //Sending message to worker
-                checkForPermission();
+                //checkForPermission(mobNo);
 
 //            }
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
@@ -465,6 +466,9 @@ public class Page1 extends AppCompatActivity {
                 AttendanceMark postResponse = response.body(); // Change karna pad sakta hai
                 Log.d("API response",postResponse.getcontactNumber());
                 mobNo = Long.parseLong(postResponse.getcontactNumber());
+                mobile_number = mobNo;
+                checkForPermission(mobNo);
+                Log.d("API response variable",new Long(mobNo).toString());
                 Log.d("API successful",response.toString());
             }
             @Override
@@ -666,7 +670,7 @@ public class Page1 extends AppCompatActivity {
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         return true;
     }
-    public void checkForPermission(){
+    public void checkForPermission(Long mobNo){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) { }
