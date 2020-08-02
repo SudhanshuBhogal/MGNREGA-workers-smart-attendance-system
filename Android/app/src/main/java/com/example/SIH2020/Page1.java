@@ -65,6 +65,7 @@ import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -155,6 +156,8 @@ public class Page1 extends AppCompatActivity {
     long mobile_number;
     String person="";
 
+    ArrayList<Worker> Absent_worker=new ArrayList<Worker>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,14 +181,15 @@ public class Page1 extends AppCompatActivity {
                 4 * DIM_IMG_SIZE_X * DIM_IMG_SIZE_Y * DIM_PIXEL_SIZE);
 
         imgData.order(ByteOrder.nativeOrder());
-
         pic = findViewById(R.id.pic);
         pic1 = findViewById(R.id.pic1);
         display = findViewById(R.id.display);
         sr = FirebaseStorage.getInstance().getReference();
-        //lat=findViewById(R.id.lat);
-        //lon=findViewById(R.id.lon);
         imageView = findViewById(R.id.imageView1);
+        ////Add the name ans mon No of absent workers
+        Absent_worker.add(new Worker("ABC",Long.parseLong("1111111111")));
+        Absent_worker.add(new Worker("XYZ",Long.parseLong("1111111111")));
+
         reff_pro = FirebaseDatabase.getInstance().getReference("Professional");
 
         mAuth = FirebaseAuth.getInstance();
@@ -309,7 +313,7 @@ public class Page1 extends AppCompatActivity {
             }
 
             //Comparison has to be done on Distance
-            Toast.makeText(this, "Name: " + person + " distance: " + minn, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "Name: " + person + " distance: " + minn, Toast.LENGTH_SHORT).show();
             Log.d("Person", "Name: " + person);
 
             androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(Page1.this).create();
@@ -347,7 +351,7 @@ public class Page1 extends AppCompatActivity {
                 if(flag1 == 1){
                     markAttendance(person,latitude,longitude);
                     Log.d("Attendance marking","Attendance done");
-                    Toast.makeText(this,"Attendance Marked" + "Latitude: " + latitude + " Longitude: " + longitude,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this,"Attendance Marked" + "Latitude: " + latitude + " Longitude: " + longitude,Toast.LENGTH_SHORT).show();
                     flag = 0;
                 }
                 else{
@@ -470,6 +474,7 @@ public class Page1 extends AppCompatActivity {
                 checkForPermission(mobNo);
                 Log.d("API response variable",new Long(mobNo).toString());
                 Log.d("API successful",response.toString());
+                //sendMessageAbsent();
             }
             @Override
             public void onFailure(Call<AttendanceMark> call, Throwable t) {
@@ -695,4 +700,6 @@ public class Page1 extends AppCompatActivity {
         smgr.sendTextMessage(mobileNo + "",null,message,null,null);
 
     }
+
+
 }

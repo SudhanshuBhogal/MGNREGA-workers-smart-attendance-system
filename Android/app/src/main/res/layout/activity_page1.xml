@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/relativelayout"
-    android:background="@drawable/mnerga3"
+    android:background="@drawable/mnerga4"
     tools:context=".Page1">
 
 
@@ -18,10 +18,9 @@
         android:layout_marginLeft="110dp"
         android:layout_marginTop="30dp"
         android:text="MNERGA"
-        android:textColor="@android:color/background_light"
+        android:textColor="@android:color/black"
         android:textSize="40dp"
-        android:textStyle="bold" />
-
+        android:textStyle="bold"/>
 
 
     <Button
@@ -31,8 +30,9 @@
         android:layout_below="@+id/text1"
         android:layout_marginLeft="100dp"
         android:layout_marginTop="80dp"
-        android:background="@android:color/background_light"
-        android:text="Take Picture" />
+        android:background="#CDC0C0"
+        android:text="Take Picture"
+        android:textSize="15dp" />
 
     <ImageView
         android:id="@+id/imageView1"
@@ -60,8 +60,9 @@
         android:layout_below="@+id/text1"
         android:layout_marginLeft="100dp"
         android:layout_marginTop="550dp"
-        android:background="@android:color/background_light"
-        android:text="Done" />
+        android:background="#C8BEBE"
+        android:text="Done"
+        android:textSize="15dp" />
 
 
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mnerga3"
+    android:background="@drawable/mnerga4"
     android:orientation="vertical"
     tools:context=".Menu_Activity">
 
@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:text="MNERGA"
-        android:textColor="@android:color/background_light"
+        android:layout_marginTop="20dp"
+        android:text="MGNERGA"
+        android:textColor="@android:color/black"
         android:textSize="50dp"
         android:textStyle="bold" />
 
@@ -23,8 +23,10 @@
         android:layout_width="379dp"
         android:layout_height="64dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="100dp"
-        android:text="Take Attendance" />
+        android:layout_marginTop="150dp"
+        android:background="#CAC2C2"
+        android:text="Take Attendance"
+        android:textSize="15dp" />
 
 
     <Button
@@ -32,8 +34,20 @@
         android:layout_width="379dp"
         android:layout_height="64dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
-        android:text="Add new working site" />
+        android:layout_marginTop="110dp"
+        android:background="#C6BDBD"
+        android:text="Add new working site"
+        android:textSize="15dp" />
+
+    <Button
+        android:id="@+id/b4"
+        android:layout_width="379dp"
+        android:layout_height="64dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="110dp"
+        android:background="#C6BDBD"
+        android:text="Send message to absentees"
+        android:textSize="15dp" />
 
 
 
