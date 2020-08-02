@@ -22,9 +22,12 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -61,6 +64,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -93,6 +98,7 @@ import android.widget.Toast;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 
 public class Page1 extends AppCompatActivity {
@@ -142,6 +148,11 @@ public class Page1 extends AppCompatActivity {
     Button btnGetLocation;
     LocationManager locationManager;
     String latitude, longitude;
+
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
+    //Mobile number has to be changed
+    long mobNo=Long.parseLong("1111111111");
+    String person="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,7 +260,7 @@ public class Page1 extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST) {
             double minn = 100.0;
-            String person="";
+            //String person="";
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             Frame frame = new Frame.Builder().setBitmap(photo).build();
             SparseArray<Face> faces = faceDetector.detect(frame);
@@ -342,6 +353,8 @@ public class Page1 extends AppCompatActivity {
                     Log.d("Location","Else kai andar");
 
                 }
+                //Sending message to worker
+                checkForPermission();
 
 //            }
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
@@ -643,6 +656,36 @@ public class Page1 extends AppCompatActivity {
             return null;
         }
         return json;
+
+    }
+    public boolean onTouchEvent(MotionEvent event) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        return true;
+    }
+    public void checkForPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) { }
+            else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.SEND_SMS},
+                        MY_PERMISSIONS_REQUEST_SEND_SMS);
+            }
+        }
+        else{
+            sendMessage(mobNo);
+        }
+
+    }
+
+    public void sendMessage(long mobileNo){
+        SmsManager smgr = SmsManager.getDefault();
+        String message;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+        String currentDateandTime = sdf.format(new Date());
+        message = "Dear "+person+" Your attendance for date "+currentDateandTime+" is marked successfully.";
+        smgr.sendTextMessage(mobileNo + "",null,message,null,null);
 
     }
 }
