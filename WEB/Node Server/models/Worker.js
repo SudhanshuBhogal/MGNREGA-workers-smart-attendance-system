@@ -55,7 +55,15 @@ const WorkerSchema = new mongoose.Schema({
     },
     attendanceRecord: [
         {
-            type: String,
+            type: Date,
+        }
+    ],
+    assignedWorkingsite: {
+        type: String,
+    },
+    previousWorkingSites: [
+        {
+            type : String,
         }
     ],
     date: {

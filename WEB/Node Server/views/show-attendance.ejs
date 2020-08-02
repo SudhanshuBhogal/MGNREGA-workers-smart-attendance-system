@@ -72,14 +72,6 @@
         vertical-align: middle;
     }
 
-    table.table tr th:first-child {
-        width: 60px;
-    }
-
-    table.table tr th:last-child {
-        width: 100px;
-    }
-
     table.table-striped tbody tr:nth-of-type(odd) {
         background-color: #fcfcfc;
     }
@@ -204,8 +196,8 @@
         <div class="table-wrapper">
             <div class="table-title bg-dark">
                 <div class="row">
-                    <div class="col-sm-5">
-                        <h2>Worker <b>Management</b></h2>
+                    <div class="col">
+                        <h2>Showing <b><%= worker.firstName + " "+ worker.lastName %>'s</b> Attendance</h2>
                     </div>
                     <!-- <div class="col-sm-7">
                         <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
@@ -217,43 +209,24 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name</th>						
-                        <th>Date Created</th>
-                        <th>Jobcard ID</th>
-                        <th>Status</th>
-                        <th>Attendance</th>
+                        <th>Name</th>	
+                        <th>Jobcard ID</th>					
+                        <th>Date Present</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% var count = 0; %>
-                    <% workers.forEach(function(worker) { %> 
+                    <% worker.attendanceRecord.forEach(function(date) { %> 
                         <% count+=1; %>
                         <tr>
                             <td><%= count %></td>
-                            <td><a href="/worker/<%= worker._id %>"><%= worker.firstName +" "+ worker.lastName %></a></td>
-                            <td><%= worker.date.toLocaleDateString(undefined,  { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></td>                        
+                            <td><a href="/worker/<%= worker._id %>"><%= worker.firstName +" "+ worker.lastName %></a></td>                     
                             <td><%= worker.jobCardId %></td>
-                            <td><span class="status text-success">&bull;</span> Assigned</td>
-                            <td>
-                                <a href="/worker/<%= worker._id %>/attendance" class="see-button" title="see-button" ><span class="material-icons">visibility</span></a>
-                            </td>
+                            <td><%= date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day:'numeric'}) %></td>
                         </tr>
                     <% }) %> 
                 </tbody>
             </table>
-            <div class="clearfix">
-                <div class="hint-text">Showing <b><%= workers.length %></b> out of <b><%= numOfResults %></b> entries</div>
-                <ul class="pagination">
-                    <% if(currentPage > 1) {%>
-                    <li class="page-item"><a href="/workers/<%= parseInt(currentPage) - 1 %>" class="page-link">Previous</a></li>
-                    <% } %>
-                    <li class="page-item active"><a href="/workers/<%=currentPage%>" class="page-link"><%= currentPage %></a></li>
-                    <% if(currentPage < pages) {%>
-                    <li class="page-item"><a href="/workers/<%= parseInt(currentPage) + 1 %>" class="page-link">Next</a></li>
-                    <% } %>
-                    <li class="page-item"><a href="" class="page-link disabled">   Total Pages = <%= pages %></a></li>
-                </ul>
-            </div>
         </div>
     </div>
 </div>

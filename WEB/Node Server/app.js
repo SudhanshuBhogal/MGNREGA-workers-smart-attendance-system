@@ -237,6 +237,19 @@ app.get("/workers/:page", async (req, res) => {
     }
 });
 
+//workers attendance show route
+app.get("/worker/:id/attendance", (req, res) => {
+    console.log(req.params.id);
+    Worker.findOne({ _id: req.params.id }, (err, foundWorker) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(foundWorker);
+            res.render("show-attendance", { worker: foundWorker });
+        }
+    });
+})
+
 //login routes
 app.get("/login/:designation", (req, res) => {
     let designation = req.params.designation;
