@@ -157,6 +157,7 @@ public class Page1 extends AppCompatActivity {
 
     String city = "Error";
     String postalCode = "Error";
+    String address = "Error";
 
     ArrayList<Worker> Absent_worker=new ArrayList<Worker>();
 
@@ -188,7 +189,7 @@ public class Page1 extends AppCompatActivity {
         display = findViewById(R.id.display);
         sr = FirebaseStorage.getInstance().getReference();
         imageView = findViewById(R.id.imageView1);
-        
+
         ////Add the name ans mon No of absent workers
         Absent_worker.add(new Worker("ABC",Long.parseLong("1111111111")));
         Absent_worker.add(new Worker("XYZ",Long.parseLong("1111111111")));
@@ -460,7 +461,7 @@ public class Page1 extends AppCompatActivity {
             List<Address> addresses;
             geocoder = new Geocoder(this, Locale.getDefault());
             addresses = geocoder.getFromLocation(Double.parseDouble(latitude), Double.parseDouble(longitude), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
             city = addresses.get(0).getLocality();
             postalCode = addresses.get(0).getPostalCode();
             Log.d("Address","address: " + address);
@@ -477,6 +478,7 @@ public class Page1 extends AppCompatActivity {
         fields.put("name", name);
         fields.put("latitude", latitude);
         fields.put("longitude", longitude);
+        fields.put("address",address);
         fields.put("city",city);
         fields.put("postalCode",postalCode);
         Call<AttendanceMark> call = jsonPlaceHolderApi.markAttendance(fields);
