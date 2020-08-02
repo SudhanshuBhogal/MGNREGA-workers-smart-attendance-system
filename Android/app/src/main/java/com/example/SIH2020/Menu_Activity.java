@@ -37,7 +37,7 @@ public class Menu_Activity extends AppCompatActivity {
                         temp = temp + Character.toString((char) c);
                     }
                     //text.setText(temp);
-                    Toast.makeText(getBaseContext(), "file read:  "+temp, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getBaseContext(), "file read:  "+temp, Toast.LENGTH_SHORT).show();
                 }
                 catch (FileNotFoundException e) {
                     e.printStackTrace();
