@@ -65,6 +65,7 @@ import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -151,8 +152,14 @@ public class Page1 extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
     //Mobile number has to be changed
-    long mobNo=Long.parseLong("1111111111");
+    long mobNo;
     String person="";
+
+    String city = "Error";
+    String postalCode = "Error";
+    String address = "Error";
+
+    ArrayList<Worker> Absent_worker=new ArrayList<Worker>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,14 +184,16 @@ public class Page1 extends AppCompatActivity {
                 4 * DIM_IMG_SIZE_X * DIM_IMG_SIZE_Y * DIM_PIXEL_SIZE);
 
         imgData.order(ByteOrder.nativeOrder());
-
         pic = findViewById(R.id.pic);
         pic1 = findViewById(R.id.pic1);
         display = findViewById(R.id.display);
         sr = FirebaseStorage.getInstance().getReference();
-        //lat=findViewById(R.id.lat);
-        //lon=findViewById(R.id.lon);
         imageView = findViewById(R.id.imageView1);
+
+        ////Add the name ans mon No of absent workers
+        Absent_worker.add(new Worker("ABC",Long.parseLong("1111111111")));
+        Absent_worker.add(new Worker("XYZ",Long.parseLong("1111111111")));
+
         reff_pro = FirebaseDatabase.getInstance().getReference("Professional");
 
         mAuth = FirebaseAuth.getInstance();
@@ -308,7 +317,7 @@ public class Page1 extends AppCompatActivity {
             }
 
             //Comparison has to be done on Distance
-            Toast.makeText(this, "Name: " + person + " distance: " + minn, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "Name: " + person + " distance: " + minn, Toast.LENGTH_SHORT).show();
             Log.d("Person", "Name: " + person);
 
             androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(Page1.this).create();
@@ -340,21 +349,20 @@ public class Page1 extends AppCompatActivity {
                     Log.d("Location permission","Location permission NOT granted");
                 } else {
                     getLocation();
+                    getAddress();
                     flag1 = 1;
                     Log.d("Location permission","Location permission granted");
                 }
                 if(flag1 == 1){
                     markAttendance(person,latitude,longitude);
                     Log.d("Attendance marking","Attendance done");
-                    Toast.makeText(this,"Attendance Marked" + "Latitude: " + latitude + " Longitude: " + longitude,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this,"Attendance Marked" + "Latitude: " + latitude + " Longitude: " + longitude,Toast.LENGTH_SHORT).show();
                     flag = 0;
                 }
                 else{
                     Log.d("Location","Else kai andar");
 
                 }
-                //Sending message to worker
-                checkForPermission();
 
 //            }
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
@@ -447,11 +455,32 @@ public class Page1 extends AppCompatActivity {
         }
     }
 
+    private void getAddress(){
+        try {
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(this, Locale.getDefault());
+            addresses = geocoder.getFromLocation(Double.parseDouble(latitude), Double.parseDouble(longitude), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            city = addresses.get(0).getLocality();
+            postalCode = addresses.get(0).getPostalCode();
+            Log.d("Address","address: " + address);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void markAttendance(String name,String latitude,String longitude) {
         Log.d("Location verification","Latitude: " + latitude + " Longitude: " + longitude);
-        AttendanceMark attendanceMark = new AttendanceMark(name);
+        //AttendanceMark attendanceMark = new AttendanceMark(name);
         Map<String, String> fields = new HashMap<>();
         fields.put("name", name);
+        fields.put("latitude", latitude);
+        fields.put("longitude", longitude);
+        fields.put("address",address);
+        fields.put("city",city);
+        fields.put("postalCode",postalCode);
         Call<AttendanceMark> call = jsonPlaceHolderApi.markAttendance(fields);
         call.enqueue(new Callback<AttendanceMark>() {
             @Override
@@ -461,8 +490,12 @@ public class Page1 extends AppCompatActivity {
                     return;
                 }
                 AttendanceMark postResponse = response.body(); // Change karna pad sakta hai
-                //content += "Title: " + postResponse.getTitle() + "\n";
+                Log.d("API response",postResponse.getcontactNumber());
+                mobNo = Long.parseLong(postResponse.getcontactNumber());
+                checkForPermission(mobNo);
+                Log.d("API response variable",new Long(mobNo).toString());
                 Log.d("API successful",response.toString());
+                //sendMessageAbsent();
             }
             @Override
             public void onFailure(Call<AttendanceMark> call, Throwable t) {
@@ -663,7 +696,7 @@ public class Page1 extends AppCompatActivity {
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         return true;
     }
-    public void checkForPermission(){
+    public void checkForPermission(Long mobNo){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) { }
@@ -688,4 +721,6 @@ public class Page1 extends AppCompatActivity {
         smgr.sendTextMessage(mobileNo + "",null,message,null,null);
 
     }
+
+
 }

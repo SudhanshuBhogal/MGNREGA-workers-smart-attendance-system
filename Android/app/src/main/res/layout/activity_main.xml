@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/mnerga3"
+    android:background="@drawable/mnerga4"
     tools:context=".MainActivity">
 
     <TextView
@@ -13,23 +13,25 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:text="MNREGA"
-        android:textColor="@android:color/white"
+        android:text="MGNREGA"
+        android:textColor="@android:color/primary_text_light"
+
         android:textSize="40dp"
         android:textStyle="bold" />
 
     <EditText
+        android:id="@+id/username"
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:id="@+id/username"
-        android:hint="Enter Your Name"
-        android:background="@drawable/edit_round"
+        android:layout_gravity="center"
+        android:layout_marginTop="150dp"
+        android:background="#C3AAAAAA"
         android:drawableLeft="@drawable/ic_user"
         android:drawablePadding="10dp"
+        android:hint="Enter Your Name"
+        android:inputType="textEmailAddress"
         android:paddingLeft="10dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:inputType="textEmailAddress"/>
+        android:textColorHint="@android:color/black" />
 
 
     <Button
@@ -37,9 +39,12 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:background="@android:color/white"
-        android:text="Log in" />
+        android:layout_marginTop="150dp"
+        android:background="#CABCBC"
+        android:text="Log in"
+        android:textSize="15dp"
+        android:layout_marginLeft="10dp"
+        />
 
 
 </LinearLayout>

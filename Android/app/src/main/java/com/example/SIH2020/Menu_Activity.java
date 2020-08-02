@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,9 +14,13 @@ import android.widget.Toast;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Menu_Activity extends AppCompatActivity {
-    Button b1,b2,b3;
+    Button b1,b2,b3,b4;
+    ArrayList<Worker> Absent_worker=new ArrayList<Worker>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,11 @@ public class Menu_Activity extends AppCompatActivity {
         b1=findViewById(R.id.b1);
         //b2=findViewById(R.id.b2);
         b3=findViewById(R.id.b3);
+        b4=findViewById(R.id.b4);
+
+        //Here we have to add name and mob no of absent workers
+        Absent_worker.add(new Worker("ABC",Long.parseLong("1111111111")));
+        Absent_worker.add(new Worker("XYZ",Long.parseLong("1111111111")));
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,8 +91,27 @@ public class Menu_Activity extends AppCompatActivity {
 
             }
         });
+        b4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                sendMessageAbsent();
+            }
+    });
 
 
+    }
+    public void sendMessageAbsent()
+    {
+        SmsManager smgr = SmsManager.getDefault();
+        String message;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+        String currentDateandTime = sdf.format(new Date());
+        for(Worker x: Absent_worker){
+            message =  "Dear "+x.name+" Your attendance for date "+currentDateandTime+" is marked absent.";
+            smgr.sendTextMessage(x.mobNo + "",null,message,null,null);
+        }
+        Toast.makeText(this, "Message sent to absent", Toast.LENGTH_LONG).show();
 
     }
 }

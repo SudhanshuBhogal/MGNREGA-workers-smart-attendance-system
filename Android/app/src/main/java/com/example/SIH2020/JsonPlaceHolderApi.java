@@ -21,13 +21,13 @@ import retrofit2.http.Url;
 public interface JsonPlaceHolderApi {
 
 
-    @POST("markattendance")
-    Call<AttendanceMark> markAttendance(@Body AttendanceMark attendanceMark);
-    @FormUrlEncoded
-    @POST("markattendance")
-    Call<AttendanceMark> markAttendance(
-            @Field("name") String name
-    );
+//    @POST("markattendance")
+//    Call<AttendanceMark> markAttendance(@Body AttendanceMark attendanceMark);
+//    @FormUrlEncoded
+//    @POST("markattendance")
+//    Call<AttendanceMark> markAttendance(
+//            @Field("name") String name
+//    );
 
 
 //    @FormUrlEncoded

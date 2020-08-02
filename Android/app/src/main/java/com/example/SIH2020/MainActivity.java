@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
 //**********************
             if (person.equals(name_entered)) {
                 Intent i=new Intent(getApplicationContext(), Menu_Activity.class);
-                Toast.makeText(this, "Name: " + person + " distance: " + minn, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Name: " + person + " distance: " + minn, Toast.LENGTH_SHORT).show();
                 Log.d("Person", "Name: " + person);
                 startActivity(i);
                 finish();
