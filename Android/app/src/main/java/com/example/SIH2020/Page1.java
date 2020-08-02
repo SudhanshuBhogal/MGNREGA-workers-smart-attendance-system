@@ -153,8 +153,10 @@ public class Page1 extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
     //Mobile number has to be changed
     long mobNo;
-    long mobile_number;
     String person="";
+
+    String city = "Error";
+    String postalCode = "Error";
 
     ArrayList<Worker> Absent_worker=new ArrayList<Worker>();
 
@@ -186,6 +188,7 @@ public class Page1 extends AppCompatActivity {
         display = findViewById(R.id.display);
         sr = FirebaseStorage.getInstance().getReference();
         imageView = findViewById(R.id.imageView1);
+        
         ////Add the name ans mon No of absent workers
         Absent_worker.add(new Worker("ABC",Long.parseLong("1111111111")));
         Absent_worker.add(new Worker("XYZ",Long.parseLong("1111111111")));
@@ -345,6 +348,7 @@ public class Page1 extends AppCompatActivity {
                     Log.d("Location permission","Location permission NOT granted");
                 } else {
                     getLocation();
+                    getAddress();
                     flag1 = 1;
                     Log.d("Location permission","Location permission granted");
                 }
@@ -358,8 +362,6 @@ public class Page1 extends AppCompatActivity {
                     Log.d("Location","Else kai andar");
 
                 }
-                //Sending message to worker
-                //checkForPermission(mobNo);
 
 //            }
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
@@ -452,6 +454,22 @@ public class Page1 extends AppCompatActivity {
         }
     }
 
+    private void getAddress(){
+        try {
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(this, Locale.getDefault());
+            addresses = geocoder.getFromLocation(Double.parseDouble(latitude), Double.parseDouble(longitude), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            city = addresses.get(0).getLocality();
+            postalCode = addresses.get(0).getPostalCode();
+            Log.d("Address","address: " + address);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void markAttendance(String name,String latitude,String longitude) {
         Log.d("Location verification","Latitude: " + latitude + " Longitude: " + longitude);
         //AttendanceMark attendanceMark = new AttendanceMark(name);
@@ -459,6 +477,8 @@ public class Page1 extends AppCompatActivity {
         fields.put("name", name);
         fields.put("latitude", latitude);
         fields.put("longitude", longitude);
+        fields.put("city",city);
+        fields.put("postalCode",postalCode);
         Call<AttendanceMark> call = jsonPlaceHolderApi.markAttendance(fields);
         call.enqueue(new Callback<AttendanceMark>() {
             @Override
@@ -470,7 +490,6 @@ public class Page1 extends AppCompatActivity {
                 AttendanceMark postResponse = response.body(); // Change karna pad sakta hai
                 Log.d("API response",postResponse.getcontactNumber());
                 mobNo = Long.parseLong(postResponse.getcontactNumber());
-                mobile_number = mobNo;
                 checkForPermission(mobNo);
                 Log.d("API response variable",new Long(mobNo).toString());
                 Log.d("API successful",response.toString());
