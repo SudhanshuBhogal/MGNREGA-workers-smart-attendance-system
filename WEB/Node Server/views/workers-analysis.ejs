@@ -1,32 +1,91 @@
 <%- include("partials/header") %>
-<div class="container d-flex">
+<script
+  type="text/javascript"
+  src="https://www.gstatic.com/charts/loader.js"
+></script>
+
+<div class="container top-space">
     <div class="row justify-content-center">
         <div class="col">
-            <form class="form-inline top-space" action="" method="GET">
+            <form class="form-inline" action="" method="GET">
                 <div class="input-group mb-2 mr-sm-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">Year</div>
                     </div>
-                    <input type="text" class="form-control" id="analysis-date" placeholder="Year" name = "year">
+                    <input type="text" class="form-control" id="analysis-date" value = "<%= year?year:'' %>" placeholder= "Year" name = "year">
                 </div>
                 <div class="input-group mb-2 mr-sm-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">Month</div>
                     </div>
-                    <input type="text" class="form-control" id="analysis-date" placeholder="Month" name = "month">
+                    <input type="text" class="form-control" id="analysis-date" value = "<%= month?month:'' %>" placeholder=<%= month||"Month" %> name = "month">
                 </div>
                 <div class="input-group mb-2 mr-sm-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">Date</div>
                     </div>
-                    <input type="text" class="form-control" id="analysis-date" placeholder="Date" name = "day">
+                    <input type="text" class="form-control" id="analysis-date" value = "<%= day?day:'' %>" placeholder=<%= day||"Day" %> name = "day">
                 </div>
                 <button type="submit" class="btn btn-primary mb-2">Submit</button>
             </form>
         </div>
     </div>
+    <% if(showAnalysis){ %>
+    <div class="row">
+        <div class="col">
+            <br>
+            <p class="display-4">Showing workers' attendance for <%= day+"/"+month+"/"+year %></p>
+            <hr class="my-4">
+        </div>
+    </div>
+        <div class="row">
+            <div class="col">
+                <div>
+                    <div id="piechart" style="min-height: 55vh;"></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row my-5">
+                    <div class="col display-4">
+                        Present Workers : <%= presentCount %>
+                    </div>
+                </div>
+                <div class="row my-5">
+                    <div class="col display-4">
+                        Absent Workers : <%= totalCount-presentCount %>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col display-4">
+                        Total Workers : <%= totalCount %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
 
 </div>
+<script>
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
 
+    function drawChart() {
+        var ptp = <%= presentCount %>;
+        var ntp = <%= totalCount-presentCount %>;
+        var data = google.visualization.arrayToDataTable([
+            ["Attendance Analysis of workers for <%= day+'/'+month+'/'+year %>", "Percentage"],
+            ["Present", <%= presentCount %>],
+            ["Absent", <%= totalCount-presentCount %>],
+        ]);
+
+        var options = { title: "Attendance Analysis of workers for <%= day+'/'+month+'/'+year %>", width: 600, height: 400 };
+
+        var chart = new google.visualization.PieChart(
+            document.getElementById("piechart")
+        );
+        chart.draw(data, options);
+    }
+</script>
 
 <%- include("partials/footer") %>

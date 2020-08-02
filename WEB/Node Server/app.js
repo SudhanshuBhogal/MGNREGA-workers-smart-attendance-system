@@ -221,13 +221,6 @@ app.post("/worker", upload.single('faceImage'), (req, res, next) => {
 
 //worker show route
 app.get("/workers/:page", async (req, res) => {
-    // const resutlsperpage = 3;
-    // const page = req.params.page || 1;
-    // Worker.find({}, function(err, workers) {
-    //     console.log(workers);
-    //     res.render("workers-show",{workers:workers});
-    // });
-    // Declaring variable
     const resPerPage = 10; // results per page
     const page = req.params.page || 1; // Page 
     try {
@@ -340,6 +333,43 @@ app.post("/working-site", (req, res) => {
 });
 
 //api for android
+
+//get absent workers api for android
+app.get("/absent-workers", (req, res) => {
+    let day = req.query.day;
+    let month = req.query.month;
+    let year = req.query.year;
+    var d = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    var date = d.toLocaleDateString();
+    Workday.findOne({ date: date }, async (err, foundWorkday) => {
+        if (err) {
+            console.log(err);
+        } else {
+            if (!foundWorkday) {
+                res.json({ status: "error", message: "workday not found in db" });
+                return;
+            }
+            let uniqueWorkers = foundWorkday.presentWorkers.filter((item, i, ar) => ar.indexOf(item) === i);
+            Worker.find().where('_id').in(uniqueWorkers).exec((err, foundWorkers) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    let ret = [];
+                    foundWorkers.forEach((foundWorker) => {
+                        let workerInfo = {
+                            name: foundWorker.firstName + " " + foundWorker.lastName,
+                            contactNumber: foundWorker.contactNumber,
+                        }
+                        ret.push(workerInfo);
+                    });
+                    res.json({status : "ok",absentWorkers:ret});
+                }
+            });
+        }
+    });
+});
+
+//mark attendance api for android
 app.post("/markattendance", (req, res) => {
     console.log(req.body.name);
     Worker.findOne({ firstName: req.body.name }, function (err, worker) {
@@ -352,7 +382,7 @@ app.post("/markattendance", (req, res) => {
                 longitude: req.body.longitude,
                 fullAddress: req.body.address,
                 city: req.body.city,
-                pincode:req.body.pincode,
+                pincode:req.body.postalCode,
             };
             //finding workday, if present then push the worker to it or otherwise make new workday and then push the worker in it
             Workday.findOne({ date: record.date.toLocaleDateString()}, (err, workday) => {
@@ -425,16 +455,24 @@ app.get("/analysis/workers/get", (req, res) => {
     let year = req.query.year;
     let month = req.query.month;
     let day = req.query.day;
-    if (year == 0) {
-        res.render("workers-analysis",{showAnalysis:false});
+    if (!year || year == 0) {
+        res.render("workers-analysis",{showAnalysis:false,year: false, month: false, day: false, presentCount: false, totalCount:false});
     } else {
         var d = new Date(parseInt(year),parseInt(month)-1,parseInt(day));
         var date = d.toLocaleDateString();
-        Workday.findOne({ date: date }, (err, foundWorkday) => {
+        Workday.findOne({ date: date }, async (err, foundWorkday) => {
             if (err) {
                 console.log(err);
             } else {
-                res.render("workers-analysis", { year: year, month: month, day: day, workday: foundWorkday });
+                if (!foundWorkday) {
+                    res.send("Work day not found!");
+                    return;
+                }
+                let unique = foundWorkday.presentWorkers.filter((item, i, ar) => ar.indexOf(item) === i);
+                let presentCount = unique.length;
+                let totalCount = await Worker.count({});
+                console.log("Present Count : "+presentCount + " Total Count : " + totalCount);
+                res.render("workers-analysis", { showAnalysis:true,year: year, month: month, day: day, presentCount: presentCount, totalCount:totalCount });
             }
         });
     }
@@ -445,9 +483,7 @@ app.listen(process.env.PORT, process.env.IP, () => {
 });
 
 
-
+//TODO:
 //face mappings calculation
-//attendance document
-//reverse geocoding
 //working site connections
-//statistics and pie chart
+//SMS

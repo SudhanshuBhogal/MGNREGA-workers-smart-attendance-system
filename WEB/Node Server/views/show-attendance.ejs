@@ -215,7 +215,8 @@
                         <th>Date Present</th>
                         <th>Latitude</th>
                         <th>Longitude</th>
-                        <th>Location</th>
+                        <th>Place</th>
+                        <th>Full Address (hover over to see)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -230,7 +231,12 @@
                         </td>
                         <td><%= record.latitude %></td>
                         <td><%= record.longitude %></td>
-                        <td></td>
+                        <td><%= record.city %></td>
+                        <td>
+                            <a data-toggle="tooltip" data-placement="bottom" title="<%= record.fullAddress %>">
+                                <%= record.fullAddress.substring(0,30) %>...
+                            </a>
+                        </td>
                     </tr>
                     <% }) %>
                 </tbody>
