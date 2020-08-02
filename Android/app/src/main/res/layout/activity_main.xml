@@ -5,24 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/mnerga2"
+    android:background="@drawable/mnerga3"
     tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MNREGA"
-        android:textSize="40dp"
         android:layout_gravity="center"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="30dp"
+        android:text="MNREGA"
+        android:textColor="@android:color/white"
+        android:textSize="40dp"
+        android:textStyle="bold" />
 
     <EditText
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:id="@+id/username"
-        android:hint="Email"
+        android:hint="Enter Your Name"
         android:background="@drawable/edit_round"
         android:drawableLeft="@drawable/ic_user"
         android:drawablePadding="10dp"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:background="@android:color/darker_gray"
+        android:background="@android:color/white"
         android:text="Log in" />
 
 
