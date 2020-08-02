@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog.Builder builder;
 
 
+
+
     public float[][] embeddings = new float[1][512];
 
     // input image dimensions for the Inception Model
@@ -106,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     // int array to hold image data
     private int[] intValues;
+    LocationManager locationManager;
 
     FusedLocationProviderClient mFusedLocationClient;
     FaceDetector faceDetector;
@@ -171,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                                 str_log = ld;
                                 name = proInfo.getName();
                                 cont = proInfo.getContact();
-                                //add=proInfo.getAddress();
+                                add=proInfo.getAddress();
                             }
                         }
                         Geocoder g = new Geocoder(getApplicationContext(), Locale.getDefault());
@@ -180,7 +183,8 @@ public class MainActivity extends AppCompatActivity {
                             List<Address> addresses = g.getFromLocation(str_lat, str_log, 1);
                             add = addresses.get(0).getAddressLine(0);
                             mycity = addresses.get(0).getLocality();
-                            //Toast.makeText(getApplicationContext(),address,Toast.LENGTH_LONG).show();
+
+                           // Toast.makeText(getApplicationContext(),addresses+" ",Toast.LENGTH_LONG).show();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
