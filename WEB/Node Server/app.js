@@ -38,7 +38,7 @@ var upload = multer({ storage: storage });
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //passport configuration  
@@ -210,9 +210,32 @@ app.post("/worker", upload.single('faceImage'), (req, res, next) => {
 });
 
 //worker show route
-app.get("/workers", (req, res) => {
-    res.render("workers-show");
-})
+app.get("/workers/:page", async (req, res) => {
+    // const resutlsperpage = 3;
+    // const page = req.params.page || 1;
+    // Worker.find({}, function(err, workers) {
+    //     console.log(workers);
+    //     res.render("workers-show",{workers:workers});
+    // });
+    // Declaring variable
+    const resPerPage = 10; // results per page
+    const page = req.params.page || 1; // Page 
+    try {
+        const foundWorkers = await Worker.find({})
+            .skip((resPerPage * page) - resPerPage)
+            .limit(resPerPage);
+        const numOfWorkers = await Worker.count({});
+        // Renders The Page
+        res.render('workers-show', {
+            workers: foundWorkers,
+            currentPage: page,
+            pages: Math.ceil(numOfWorkers / resPerPage),
+            numOfResults: numOfWorkers
+        });
+    } catch (err) {
+        throw new Error(err);
+    }
+});
 
 //login routes
 app.get("/login/:designation", (req, res) => {

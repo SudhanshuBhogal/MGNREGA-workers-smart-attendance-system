@@ -219,74 +219,39 @@
                         <th>#</th>
                         <th>Name</th>						
                         <th>Date Created</th>
-                        <th>Role</th>
+                        <th>Jobcard ID</th>
                         <th>Status</th>
                         <th>Attendance</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><a href="#">Michael Holz</a></td>
-                        <td>04/10/2013</td>                        
-                        <td>Worker</td>
-                        <td><span class="status text-success">&bull;</span> Assigned</td>
-                        <td>
-                            <a href="#" class="see-button" title="see-button" ><span class="material-icons">visibility</span></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><a href="#">Paula Wilson</a></td>
-                        <td>05/08/2014</td>                       
-                        <td>Worker</td>
-                        <td><span class="status text-success">&bull;</span> Assigned</td>
-                        <td>
-                            <a href="#" class="see-button" title="see-button" ><span class="material-icons">visibility</span></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td><a href="#">Antonio Moreno</a></td>
-                        <td>11/05/2015</td>
-                        <td>Worker</td>
-                        <td><span class="status text-danger">&bull;</span> Not Assigned</td>                        
-                        <td>
-                            <a href="#" class="see-button" title="see-button" ><span class="material-icons">visibility</span></a>
-                        </td>                        
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td><a href="#">Mary Saveley</a></td>
-                        <td>06/09/2016</td>
-                        <td>Worker</td>
-                        <td><span class="status text-success">&bull;</span> Assigned</td>
-                        <td>
-                            <a href="#" class="see-button" title="see-button" ><span class="material-icons">visibility</span></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td><a href="#">Martin Sommer</a></td>
-                        <td>12/08/2017</td>                        
-                        <td>Worker</td>
-                        <td><span class="status text-warning">&bull;</span> Not Assigned</td>
-                        <td>
-                            <a href="#" class="see-button" title="see-button" ><span class="material-icons">visibility</span></a>
-                        </td>
-                    </tr>
+                    <% var count = 0; %>
+                    <% workers.forEach(function(worker) { %> 
+                        <% count+=1; %>
+                        <tr>
+                            <td><%= count %></td>
+                            <td><a href="#"><%= worker.firstName +" "+ worker.lastName %></a></td>
+                            <td><%= worker.date %></td>                        
+                            <td><%= worker.jobCardId %></td>
+                            <td><span class="status text-success">&bull;</span> Assigned</td>
+                            <td>
+                                <a href="/worker/attendance/<%= worker._id %>" class="see-button" title="see-button" ><span class="material-icons">visibility</span></a>
+                            </td>
+                        </tr>
+                    <% }) %> 
                 </tbody>
             </table>
             <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                <div class="hint-text">Showing <b><%= workers.length %></b> out of <b><%= numOfResults %></b> entries</div>
                 <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                    <% if(currentPage > 1) {%>
+                    <li class="page-item"><a href="/workers/<%= currentPage - 1 %>" class="page-link">Previous</a></li>
+                    <% } %>
+                    <li class="page-item active"><a href="/workers/<%=currentPage%>" class="page-link"><%= currentPage %></a></li>
+                    <% if(currentPage < pages) {%>
+                    <li class="page-item"><a href="/workers/<%= parseInt(currentPage) + 1 %>" class="page-link">Next</a></li>
+                    <% } %>
+                    <li class="page-item"><a href="#" class="page-link disabled">   Total Pages = <%= pages %></a></li>
                 </ul>
             </div>
         </div>
