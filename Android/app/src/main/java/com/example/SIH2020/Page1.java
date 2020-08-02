@@ -283,20 +283,23 @@ public class Page1 extends AppCompatActivity {
                             dialog.dismiss();
                             startActivity(i);
                             finish();
+                            Log.d("Attendance Yes","Inside yes");
                             flag = 1;
                         }
 
                     });
-            if(flag == 1){
+//            if(flag == 1){
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://jsonplaceholder.typicode.com/") // Isko change karna
+                        .baseUrl("https://mgnregaaa.herokuapp.com/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+                Log.d("Attendance marking","Attendance initiated");
                 markAttendance(person);
+                Log.d("Attendance marking","Attendance done");
                 Toast.makeText(this,"Attendance Marked",Toast.LENGTH_SHORT).show();
                 flag = 0;
-            }
+//            }
             alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
