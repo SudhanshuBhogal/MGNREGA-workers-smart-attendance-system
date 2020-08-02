@@ -55,8 +55,10 @@ const WorkerSchema = new mongoose.Schema({
     },
     attendanceRecord: [
         {
-            type: Date,
-        }
+            date: Date,
+            latitude: String,
+            longitude : String,
+        },
     ],
     assignedWorkingsite: {
         type: String,
@@ -66,6 +68,11 @@ const WorkerSchema = new mongoose.Schema({
             type : String,
         }
     ],
+    contactNumber: {
+            type: Number,
+            unique: true,
+            required: true,
+    },
     date: {
         type: Date,
         default: Date.now,

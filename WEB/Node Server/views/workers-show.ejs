@@ -231,7 +231,7 @@
                         <tr>
                             <td><%= count %></td>
                             <td><a href="/worker/<%= worker._id %>"><%= worker.firstName +" "+ worker.lastName %></a></td>
-                            <td><%= worker.date.toLocaleDateString(undefined,  { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></td>                        
+                            <td><%= worker.date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day:'numeric'}) %></td>                        
                             <td><%= worker.jobCardId %></td>
                             <td><span class="status text-success">&bull;</span> Assigned</td>
                             <td>

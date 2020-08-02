@@ -169,16 +169,16 @@ app.post("/worker", upload.single('faceImage'), (req, res, next) => {
             contentType: 'image/png'
         }
     }
-    //for getting embedding from image
-    // request.post({
-    //     url: "http://localhost:5000/getfacevector",
-    //     form: {imageBase64 : imageObject.image.data.toString('base64')}
-    //     }, (err, res, body) => {
-    //     if (!err && res.statusCode == 200) {
-    //         var faceMappings = JSON.parse(body);
-    //         console.log(faceMappings);
-    //     }
-    // });
+    // for getting embedding from image
+    request.post({
+        url: "http://localhost:5000/getfacevector",
+        form: {imageBase64 : imageObject.image.data.toString('base64')}
+        }, (err, res, body) => {
+        if (!err && res.statusCode == 200) {
+            var faceMappings = JSON.parse(body);
+            console.log(faceMappings);
+        }
+    });
 
     Image.create(imageObject, (err, savedImage) => {
         if (err) {
@@ -322,13 +322,25 @@ app.post("/markattendance", (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            worker.attendanceRecord.push(Date.now());
-            worker.save((err, data) => {
+            let record = {
+                date: Date.now(),
+                latitude: req.body.latitude,
+                longitude: req.body.longitude,
+            };
+            console.log("Saving attendance record : " + record);
+            worker.attendanceRecord.push(record);
+            worker.save((err, savedWorker) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(data);
-                    res.send("Attendance marked successfully!");
+                    console.log(savedWorker);
+                    let ret = {
+                        contactNumber: savedWorker.contactNumber,
+                        status: "ok",
+                    };
+                    console.log("Marked Attendance successfully");
+                    console.log("Sending back : " + ret);
+                    res.json(ret);
                 }
             });
         }

@@ -212,17 +212,21 @@
                         <th>Name</th>	
                         <th>Jobcard ID</th>					
                         <th>Date Present</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% var count = 0; %>
-                    <% worker.attendanceRecord.forEach(function(date) { %> 
+                    <% worker.attendanceRecord.forEach(function(record) { %> 
                         <% count+=1; %>
                         <tr>
                             <td><%= count %></td>
                             <td><a href="/worker/<%= worker._id %>"><%= worker.firstName +" "+ worker.lastName %></a></td>                     
                             <td><%= worker.jobCardId %></td>
-                            <td><%= date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day:'numeric'}) %></td>
+                            <td><%= record.date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day:'numeric'}) %></td>
+                            <td><%= record.latitude %></td>
+                            <td><%= record.longitude %></td>
                         </tr>
                     <% }) %> 
                 </tbody>
