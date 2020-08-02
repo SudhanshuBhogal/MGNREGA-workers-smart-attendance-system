@@ -1,23 +1,31 @@
 const { response } = require("express");
+const { runInNewContext } = require("vm");
 
 require("dotenv").config();
 var express = require("express"),
     app = express(),
+    request = require('request'),
     bodyParser = require("body-parser"),
+
+    //database and authenticatin imports
     mongoose = require("mongoose"),
     bcrypt = require("bcryptjs"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
     session = require("express-session"),
+
+    //imports for image upload
     fs = require('fs'),
     path = require('path'),
     multer = require('multer'),
-    request = require('request'),
+
+    //importing models
     Worker = require("./models/Worker"),
     WorkingSite = require("./models/WorkingSite"),
     AuthorisedPersonnel = require("./models/AuthorisedPersonnel"),
     Supervisor = require("./models/Supervisor"),
-    Image = require("./models/Image");
+    Image = require("./models/Image"),
+    Workday = require("./models/Workday");
 
 // Passport Config
 require("./config/passport")(passport);
@@ -155,6 +163,8 @@ app.post("/register/supervisor", (req, res) => {
     }
 });
 
+//workers route start here
+//new worker route
 app.get("/worker/new", (req, res) => {
     res.render("register-worker");
 })
@@ -237,10 +247,11 @@ app.get("/workers/:page", async (req, res) => {
     }
 });
 
+
 //workers attendance show route
 app.get("/worker/:id/attendance", (req, res) => {
     console.log(req.params.id);
-    Worker.findOne({ _id: req.params.id }, (err, foundWorker) => {
+    Worker.findById(req.params.id, (err, foundWorker) => {
         if (err) {
             console.log(err);
         } else {
@@ -249,6 +260,19 @@ app.get("/worker/:id/attendance", (req, res) => {
         }
     });
 })
+
+//worker profile route
+app.get("/worker/:id", (req, res) => {
+    console.log(req.params.id);
+    Worker.findById(req.params.id, (err, foundWorker) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(foundWorker);
+            res.render("worker-profile",{worker: foundWorker});
+        }
+    });
+});
 
 //login routes
 app.get("/login/:designation", (req, res) => {
@@ -323,37 +347,107 @@ app.post("/markattendance", (req, res) => {
             console.log(err);
         } else {
             let record = {
-                date: Date.now(),
+                date: new Date(),
                 latitude: req.body.latitude,
                 longitude: req.body.longitude,
+                fullAddress: req.body.address,
+                city: req.body.city,
+                pincode:req.body.pincode,
             };
-            console.log("Saving attendance record : " + record);
-            worker.attendanceRecord.push(record);
-            worker.save((err, savedWorker) => {
+            //finding workday, if present then push the worker to it or otherwise make new workday and then push the worker in it
+            Workday.findOne({ date: record.date.toLocaleDateString()}, (err, workday) => {
                 if (err) {
                     console.log(err);
+                } else if (workday) {
+                    console.log(workday);
+                    workday.presentWorkers.push(worker);
+                    workday.save((err, savedWorkday) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log("Saving attendance record : " + record);
+                            worker.attendanceRecord.push(record);
+                            worker.save((err, savedWorker) => {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log(savedWorker);
+                                    let ret = {
+                                        contactNumber: savedWorker.contactNumber,
+                                        status: "ok",
+                                    };
+                                    console.log("Marked Attendance successfully");
+                                    console.log("Sending back : " + ret);
+                                    res.json(ret);
+                                }
+                            });
+                        }
+                    });
                 } else {
-                    console.log(savedWorker);
-                    let ret = {
-                        contactNumber: savedWorker.contactNumber,
-                        status: "ok",
-                    };
-                    console.log("Marked Attendance successfully");
-                    console.log("Sending back : " + ret);
-                    res.json(ret);
+                    Workday.create({ date: record.date.toLocaleDateString() }, (err, workday) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(workday);
+                            workday.presentWorkers.push(worker);
+                            workday.save((err, savedWorkday) => {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log("Saving attendance record : " + record);
+                                    worker.attendanceRecord.push(record);
+                                    worker.save((err, savedWorker) => {
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                            console.log(savedWorker);
+                                            let ret = {
+                                                contactNumber: savedWorker.contactNumber,
+                                                status: "ok",
+                                            };
+                                            console.log("Marked Attendance successfully");
+                                            console.log("Sending back : " + ret);
+                                            res.json(ret);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                    
                 }
             });
         }
     });
 });
 
-// app.get("/markattendance", (req, res) => {
-//     res.send("Reached sudhanshu successsfully!");
-// });
-
-
-
+app.get("/analysis/workers/get", (req, res) => {
+    let year = req.query.year;
+    let month = req.query.month;
+    let day = req.query.day;
+    if (year == 0) {
+        res.render("workers-analysis",{showAnalysis:false});
+    } else {
+        var d = new Date(parseInt(year),parseInt(month)-1,parseInt(day));
+        var date = d.toLocaleDateString();
+        Workday.findOne({ date: date }, (err, foundWorkday) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render("workers-analysis", { year: year, month: month, day: day, workday: foundWorkday });
+            }
+        });
+    }
+})
 
 app.listen(process.env.PORT, process.env.IP, () => {
     console.log("Server started at port " + process.env.PORT);
 });
+
+
+
+//face mappings calculation
+//attendance document
+//reverse geocoding
+//working site connections
+//statistics and pie chart

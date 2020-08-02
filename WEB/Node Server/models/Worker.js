@@ -57,7 +57,10 @@ const WorkerSchema = new mongoose.Schema({
         {
             date: Date,
             latitude: String,
-            longitude : String,
+            longitude: String,
+            fullAddress: String,
+            city: String,
+            pincode:String,
         },
     ],
     assignedWorkingsite: {

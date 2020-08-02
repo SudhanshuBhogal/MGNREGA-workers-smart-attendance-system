@@ -231,7 +231,7 @@
                         <tr>
                             <td><%= count %></td>
                             <td><a href="/worker/<%= worker._id %>"><%= worker.firstName +" "+ worker.lastName %></a></td>
-                            <td><%= worker.date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day:'numeric'}) %></td>                        
+                            <td><%= worker.date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day: 'numeric' }) %></td>                        
                             <td><%= worker.jobCardId %></td>
                             <td><span class="status text-success">&bull;</span> Assigned</td>
                             <td>
@@ -251,7 +251,7 @@
                     <% if(currentPage < pages) {%>
                     <li class="page-item"><a href="/workers/<%= parseInt(currentPage) + 1 %>" class="page-link">Next</a></li>
                     <% } %>
-                    <li class="page-item"><a href="" class="page-link disabled">   Total Pages = <%= pages %></a></li>
+                    <li class="page-item"><a href="" class="page-link disabled">Total Pages = <%= pages %></a></li>
                 </ul>
             </div>
         </div>

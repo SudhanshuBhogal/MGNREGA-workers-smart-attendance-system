@@ -1,6 +1,7 @@
 <%- include("partials/header") %>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
     body {
         color: #566787;
@@ -209,26 +210,29 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name</th>	
-                        <th>Jobcard ID</th>					
+                        <th>Name</th>
+                        <th>Jobcard ID</th>
                         <th>Date Present</th>
                         <th>Latitude</th>
                         <th>Longitude</th>
+                        <th>Location</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% var count = 0; %>
-                    <% worker.attendanceRecord.forEach(function(record) { %> 
-                        <% count+=1; %>
-                        <tr>
-                            <td><%= count %></td>
-                            <td><a href="/worker/<%= worker._id %>"><%= worker.firstName +" "+ worker.lastName %></a></td>                     
-                            <td><%= worker.jobCardId %></td>
-                            <td><%= record.date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day:'numeric'}) %></td>
-                            <td><%= record.latitude %></td>
-                            <td><%= record.longitude %></td>
-                        </tr>
-                    <% }) %> 
+                    <% worker.attendanceRecord.forEach(function(record) { %>
+                    <% count+=1; %>
+                    <tr>
+                        <td><%= count %></td>
+                        <td><a href="/worker/<%= worker._id %>"><%= worker.firstName +" "+ worker.lastName %></a></td>
+                        <td><%= worker.jobCardId %></td>
+                        <td><%= record.date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day:'numeric'}) %>
+                        </td>
+                        <td><%= record.latitude %></td>
+                        <td><%= record.longitude %></td>
+                        <td></td>
+                    </tr>
+                    <% }) %>
                 </tbody>
             </table>
         </div>

@@ -1,0 +1,28 @@
+<%- include("partials/header") %>
+
+<div class="container mt-5 ">
+    <div class="row d-flex justify-content-center">
+        <div class="col-8">
+            <div class="card mx-auto mt-5">
+                <div class="card-body">
+                    <h5 class="card-title">Name : <%= worker.firstName + " "+ worker.lastName %></h5>
+                    <p class="card-text"><b>Jobcard ID :</b> <%= worker.jobCardId %></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b>Aadhar Number :</b> <%= worker.aadharNumber %></li>
+                    <li class="list-group-item"><b>Address :</b> <%= worker.addressLine %></li>
+                    <li class="list-group-item"><b>District :</b> <%= worker.district %></li>
+                    <li class="list-group-item"><b>State :</b> <%= worker.state %></li>
+                    <li class="list-group-item"><b>Pincode :</b> <%= worker.pincode %></li>
+                    <li class="list-group-item"><b>Date Registered :</b> <%= worker.date.toLocaleDateString() %></li>
+                    <li class="list-group-item"><b>Family ID :</b> <%= worker.familyId %></li>
+                </ul>
+                <div class="card-body">
+                    <a href="/worker/<%= worker._id %>/attendance" class="card-link">Attendance</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include("partials/footer") %>
