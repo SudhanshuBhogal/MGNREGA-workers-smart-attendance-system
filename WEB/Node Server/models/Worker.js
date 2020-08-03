@@ -60,7 +60,11 @@ const WorkerSchema = new mongoose.Schema({
             longitude: String,
             fullAddress: String,
             city: String,
-            pincode:String,
+            pincode: String,
+            base64img: { 
+                data: Buffer, 
+                contentType: String 
+            },
         },
     ],
     assignedWorkingsite: {

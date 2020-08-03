@@ -120,6 +120,8 @@
         border-radius: 50%;
         vertical-align: middle;
         margin-right: 10px;
+        max-width: 100px;
+        max-height: 100px;
     }
 
     .status {
@@ -225,7 +227,7 @@
                     <% count+=1; %>
                     <tr>
                         <td><%= count %></td>
-                        <td><a href="/worker/<%= worker._id %>"><%= worker.firstName +" "+ worker.lastName %></a></td>
+                        <td><a href="/worker/<%= worker._id %>"><img src="data:image/<%=record.base64img.contentType%>;base64,<%=record.base64img.data.toString('base64')%>" class="avatar" alt="Avatar"><%= worker.firstName +" "+ worker.lastName %></a></td>
                         <td><%= worker.jobCardId %></td>
                         <td><%= record.date.toLocaleDateString(undefined,{weekday:'long', year:'numeric', month:'long', day:'numeric'}) %>
                         </td>

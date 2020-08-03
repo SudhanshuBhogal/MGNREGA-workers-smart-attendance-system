@@ -170,7 +170,7 @@ app.get("/worker/new", (req, res) => {
 })
 
 //register worker, get image vectos and store the worker in the database
-app.post("/worker", upload.single('faceImage'), (req, res, next) => {
+app.post("/worker", upload.single('faceImage'), async (req, res, next) => {
     console.log(req.body.worker);
     var imageObject = {
         name: req.body.worker.jobCardId,
@@ -180,17 +180,21 @@ app.post("/worker", upload.single('faceImage'), (req, res, next) => {
         }
     }
     // for getting embedding from image
-    request.post({
-        url: "http://localhost:5000/getfacevector",
-        form: {imageBase64 : imageObject.image.data.toString('base64')}
-        }, (err, res, body) => {
+    await request.post({
+        url: "http://localhost:5010/getfacevector",
+        form: { imageBase64: imageObject.image.data.toString('base64') }
+    }, (err, res, body) => {
+        console.log("Reached here 2");
+        if (err) {
+            console.log(err);
+        }
         if (!err && res.statusCode == 200) {
             var faceMappings = JSON.parse(body);
             console.log(faceMappings);
         }
     });
 
-    Image.create(imageObject, (err, savedImage) => {
+    await Image.create(imageObject, (err, savedImage) => {
         if (err) {
             console.log(err);
             res.redirect("..");
@@ -262,7 +266,7 @@ app.get("/worker/:id", (req, res) => {
             console.log(err);
         } else {
             console.log(foundWorker);
-            res.render("worker-profile",{worker: foundWorker});
+            res.render("worker-profile", { worker: foundWorker });
         }
     });
 });
@@ -372,6 +376,10 @@ app.get("/absent-workers", (req, res) => {
 //mark attendance api for android
 app.post("/markattendance", (req, res) => {
     console.log(req.body.name);
+    // console.log(req.body.encoded);
+    const base64string = req.body.encoded.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
+    const buffer = Buffer.from(base64string, 'base64');
+
     Worker.findOne({ firstName: req.body.name }, function (err, worker) {
         if (err) {
             console.log(err);
@@ -382,14 +390,18 @@ app.post("/markattendance", (req, res) => {
                 longitude: req.body.longitude,
                 fullAddress: req.body.address,
                 city: req.body.city,
-                pincode:req.body.postalCode,
+                pincode: req.body.postalCode,
+                base64img: {
+                    data: buffer,
+                    contentType: "image/png"
+                }
             };
             //finding workday, if present then push the worker to it or otherwise make new workday and then push the worker in it
-            Workday.findOne({ date: record.date.toLocaleDateString()}, (err, workday) => {
+            Workday.findOne({ date: record.date.toLocaleDateString() }, (err, workday) => {
                 if (err) {
                     console.log(err);
                 } else if (workday) {
-                    console.log(workday);
+                    // console.log(workday);
                     workday.presentWorkers.push(worker);
                     workday.save((err, savedWorkday) => {
                         if (err) {
@@ -401,7 +413,7 @@ app.post("/markattendance", (req, res) => {
                                 if (err) {
                                     console.log(err);
                                 } else {
-                                    console.log(savedWorker);
+                                    // console.log(savedWorker);
                                     let ret = {
                                         contactNumber: savedWorker.contactNumber,
                                         status: "ok",
@@ -418,19 +430,19 @@ app.post("/markattendance", (req, res) => {
                         if (err) {
                             console.log(err);
                         } else {
-                            console.log(workday);
+                            // console.log(workday);
                             workday.presentWorkers.push(worker);
                             workday.save((err, savedWorkday) => {
                                 if (err) {
                                     console.log(err);
                                 } else {
-                                    console.log("Saving attendance record : " + record);
+                                    // console.log("Saving attendance record : " + record);
                                     worker.attendanceRecord.push(record);
                                     worker.save((err, savedWorker) => {
                                         if (err) {
                                             console.log(err);
                                         } else {
-                                            console.log(savedWorker);
+                                            // console.log(savedWorker);
                                             let ret = {
                                                 contactNumber: savedWorker.contactNumber,
                                                 status: "ok",
@@ -444,7 +456,7 @@ app.post("/markattendance", (req, res) => {
                             });
                         }
                     });
-                    
+
                 }
             });
         }
@@ -456,9 +468,9 @@ app.get("/analysis/workers/get", (req, res) => {
     let month = req.query.month;
     let day = req.query.day;
     if (!year || year == 0) {
-        res.render("workers-analysis",{showAnalysis:false,year: false, month: false, day: false, presentCount: false, totalCount:false});
+        res.render("workers-analysis", { showAnalysis: false, year: false, month: false, day: false, presentCount: false, totalCount: false });
     } else {
-        var d = new Date(parseInt(year),parseInt(month)-1,parseInt(day));
+        var d = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
         var date = d.toLocaleDateString();
         Workday.findOne({ date: date }, async (err, foundWorkday) => {
             if (err) {
@@ -471,12 +483,12 @@ app.get("/analysis/workers/get", (req, res) => {
                 let unique = foundWorkday.presentWorkers.filter((item, i, ar) => ar.indexOf(item) === i);
                 let presentCount = unique.length;
                 let totalCount = await Worker.count({});
-                console.log("Present Count : "+presentCount + " Total Count : " + totalCount);
-                res.render("workers-analysis", { showAnalysis:true,year: year, month: month, day: day, presentCount: presentCount, totalCount:totalCount });
+                console.log("Present Count : " + presentCount + " Total Count : " + totalCount);
+                res.render("workers-analysis", { showAnalysis: true, year: year, month: month, day: day, presentCount: presentCount, totalCount: totalCount });
             }
         });
     }
-})
+});
 
 app.listen(process.env.PORT, process.env.IP, () => {
     console.log("Server started at port " + process.env.PORT);

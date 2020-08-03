@@ -30,9 +30,8 @@ def get_facevector():
     print(f'Image received in the dest route: {image_np.shape}')
 
     embeddings = facenet_flask.get_embedding(image_PIL)
+    print(embeddings)
     return jsonify({'status':'status ok please','faceMappings':embeddings})
-
-
 
 @app.route('/')
 def home():
