@@ -353,7 +353,7 @@ public class Page1 extends AppCompatActivity {
                 if(flag1 == 1){
                     markAttendance(person,latitude,longitude);
                     Log.d("Attendance marking","Attendance done");
-                    //Toast.makeText(this,"Attendance Marked" + "Latitude: " + latitude + " Longitude: " + longitude,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"Attendance Marked for " + person,Toast.LENGTH_SHORT).show();
                     flag = 0;
                 }
                 else{
@@ -492,7 +492,6 @@ public class Page1 extends AppCompatActivity {
                 checkForPermission(mobNo);
                 Log.d("API response variable",new Long(mobNo).toString());
                 Log.d("API successful",response.toString());
-                //sendMessageAbsent();
             }
             @Override
             public void onFailure(Call<AttendanceMark> call, Throwable t) {
