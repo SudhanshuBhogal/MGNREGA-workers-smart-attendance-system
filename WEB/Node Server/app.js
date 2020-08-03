@@ -179,20 +179,21 @@ app.post("/worker", upload.single('faceImage'), async (req, res, next) => {
             contentType: 'image/png'
         }
     }
-    // for getting embedding from image
-    await request.post({
-        url: "http://localhost:5010/getfacevector",
-        form: { imageBase64: imageObject.image.data.toString('base64') }
-    }, (err, res, body) => {
-        console.log("Reached here 2");
-        if (err) {
-            console.log(err);
-        }
-        if (!err && res.statusCode == 200) {
-            var faceMappings = JSON.parse(body);
-            console.log(faceMappings);
-        }
-    });
+    // // for getting embedding from image
+    // await request.post({
+    //     url: "http://localhost:5010/getfacevector",
+    //     form: { imageBase64: imageObject.image.data.toString('base64') }
+    // }, (err, res, body) => {
+    //     console.log("Reached here 2");
+    //     if (err) {
+    //         console.log(err);
+    //     }
+    //     if (!err && res.statusCode == 200) {
+    //         var faceMappings = JSON.parse(body);
+    //         console.log(faceMappings);
+    //     }
+    // });
+    
 
     await Image.create(imageObject, (err, savedImage) => {
         if (err) {
@@ -376,6 +377,11 @@ app.get("/absent-workers", (req, res) => {
 //mark attendance api for android
 app.post("/markattendance", (req, res) => {
     console.log(req.body.name);
+    const authkey = req.body.authKey;
+    if (!authkey || authkey !== process.env.ANDROIDAPKAUTHKEY) {
+        res.json({ error: "Access denied", status: "failed" });
+        return;
+    }
     // console.log(req.body.encoded);
     const base64string = req.body.encoded.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
     const buffer = Buffer.from(base64string, 'base64');
