@@ -23,6 +23,7 @@ import android.os.Looper;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.telephony.SmsManager;
+import android.util.Base64;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
@@ -57,6 +58,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.tensorflow.lite.Interpreter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -158,7 +160,9 @@ public class Page1 extends AppCompatActivity {
     String city = "Error";
     String postalCode = "Error";
     String address = "Error";
+    String encoded;
 
+    private static final String API_KEY = BuildConfig.ApiKey;
 
 
     @Override
@@ -312,6 +316,18 @@ public class Page1 extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            ////////////////////////////////
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            photo.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream .toByteArray();
+
+            encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            Log.d("Image Base 64", "hiiii");
+            Log.d("Image Base 64", "Image:   " + encoded);
+            Log.d("Image Base 64", "Image:   " + encoded);
+
+            ////////////////////////////////
 
             //Comparison has to be done on Distance
            // Toast.makeText(this, "Name: " + person + " distance: " + minn, Toast.LENGTH_SHORT).show();
@@ -478,6 +494,8 @@ public class Page1 extends AppCompatActivity {
         fields.put("address",address);
         fields.put("city",city);
         fields.put("postalCode",postalCode);
+        fields.put("encoded",encoded);
+        fields.put("authKey",API_KEY);
         Call<AttendanceMark> call = jsonPlaceHolderApi.markAttendance(fields);
         call.enqueue(new Callback<AttendanceMark>() {
             @Override
