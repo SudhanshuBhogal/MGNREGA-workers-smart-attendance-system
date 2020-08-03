@@ -322,6 +322,10 @@ public class Page1 extends AppCompatActivity {
             photo.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream .toByteArray();
 
+//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+//            byte[] byteArray = byteArrayOutputStream .toByteArray();
+
             encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
             Log.d("Image Base 64", "hiiii");
             Log.d("Image Base 64", "Image:   " + encoded);
