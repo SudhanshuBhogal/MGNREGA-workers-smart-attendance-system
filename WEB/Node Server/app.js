@@ -362,7 +362,7 @@ app.get("/absent-workers", (req, res) => {
                         }
                         ret.push(workerInfo);
                     });
-                    res.json({status : "ok",absentWorkers:ret});
+                    res.json(ret);
                 }
             });
         }
