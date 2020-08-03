@@ -193,7 +193,6 @@ app.post("/worker", upload.single('faceImage'), async (req, res, next) => {
     //         console.log(faceMappings);
     //     }
     // });
-    
 
     await Image.create(imageObject, (err, savedImage) => {
         if (err) {
