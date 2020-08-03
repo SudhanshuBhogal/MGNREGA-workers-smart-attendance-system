@@ -23,7 +23,7 @@
         android:layout_width="379dp"
         android:layout_height="64dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:background="#CAC2C2"
         android:text="Take Attendance"
         android:textSize="15dp" />
@@ -34,7 +34,7 @@
         android:layout_width="379dp"
         android:layout_height="64dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="50dp"
         android:background="#C6BDBD"
         android:text="Add new working site"
         android:textSize="15dp" />
@@ -44,7 +44,7 @@
         android:layout_width="379dp"
         android:layout_height="64dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="60dp"
         android:background="#C6BDBD"
         android:text="Send message to absentees"
         android:textSize="15dp" />

@@ -159,7 +159,7 @@ public class Page1 extends AppCompatActivity {
     String postalCode = "Error";
     String address = "Error";
 
-    ArrayList<Worker> Absent_worker=new ArrayList<Worker>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,9 +190,6 @@ public class Page1 extends AppCompatActivity {
         sr = FirebaseStorage.getInstance().getReference();
         imageView = findViewById(R.id.imageView1);
 
-        ////Add the name ans mon No of absent workers
-        Absent_worker.add(new Worker("ABC",Long.parseLong("1111111111")));
-        Absent_worker.add(new Worker("XYZ",Long.parseLong("1111111111")));
 
         reff_pro = FirebaseDatabase.getInstance().getReference("Professional");
 

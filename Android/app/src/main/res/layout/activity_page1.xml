@@ -40,8 +40,8 @@
         android:layout_height="314dp"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="60dp"
-        android:background="@layout/image_border"
-        android:layout_marginTop="260dp"></ImageView>
+        android:layout_marginTop="240dp"
+        android:background="@layout/image_border"></ImageView>
 
 
 
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/text1"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="550dp"
+        android:layout_marginTop="510dp"
         android:background="#C8BEBE"
         android:text="Done"
         android:textSize="15dp" />
