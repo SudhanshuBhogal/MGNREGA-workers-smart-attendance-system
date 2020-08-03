@@ -34,6 +34,13 @@ public interface JsonPlaceHolderApi {
 //    @POST/GET/PUT/DELETE("/your_endpoint")
 //    Object yourMethodName(@Field("your_field") String yourField,...);
 
+
+    @GET("absent-workers")
+    Call<List<Worker>> getAbsentWorker(@QueryMap Map<String, String> parameters);
+
+//    @GET("absent-workers")
+//    Call<Worker> getAbsentWorker(@QueryMap Map<String, String> parameters);
+
     @FormUrlEncoded
     @POST("markattendance")
     Call<AttendanceMark> markAttendance(@FieldMap Map<String, String> fields);
