@@ -350,7 +350,7 @@ app.get("/absent-workers", (req, res) => {
                 return;
             }
             let uniqueWorkers = foundWorkday.presentWorkers.filter((item, i, ar) => ar.indexOf(item) === i);
-            Worker.find().where('_id').in(uniqueWorkers).exec((err, foundWorkers) => {
+            Worker.find().where('_id').nin(uniqueWorkers).exec((err, foundWorkers) => {
                 if (err) {
                     console.log(err);
                 } else {
